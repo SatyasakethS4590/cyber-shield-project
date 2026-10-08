@@ -1,418 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CyberShield - Login & Register</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #07111f;
-      color: white;
-      padding: 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 430px;
-      background: #0d1b2a;
-      border: 1px solid #1d3b55;
-      border-radius: 18px;
-      padding: 32px;
-      box-shadow: 0 20px 50px rgba(0,0,0,.4);
-    }
-
-    .logo {
-      text-align: center;
-      font-size: 30px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .logo span {
-      color: #00e5ff;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #9fb3c8;
-      margin-bottom: 25px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin: 14px 0 7px;
-      color: #c9d7e5;
-    }
-
-    input {
-      width: 100%;
-      padding: 13px;
-      border-radius: 9px;
-      border: 1px solid #31506b;
-      background: #081522;
-      color: white;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #00e5ff;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 13px;
-      border: none;
-      border-radius: 9px;
-      background: #00bcd4;
-      color: #001018;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #00e5ff;
-    }
-
-    .switch {
-      text-align: center;
-      margin-top: 20px;
-      color: #9fb3c8;
-    }
-
-    .switch a {
-      color: #00e5ff;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .message {
-      margin-top: 15px;
-      text-align: center;
-      min-height: 22px;
-      color: #9fb3c8;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .back {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      color: #9fb3c8;
-      text-decoration: none;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberShield - Login / Register</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;font-family:Arial,sans-serif;color:#fff;background:linear-gradient(135deg,#080b18,#11152b,#08151b);display:flex;align-items:center;justify-content:center;padding:24px}
+.card{width:100%;max-width:460px;background:#11162a;border:1px solid #303957;border-radius:24px;padding:34px;box-shadow:0 25px 70px #0008}
+.logo{text-align:center;font-size:30px;font-weight:800;margin-bottom:8px}.logo span{color:#22d3ee}
+.subtitle{text-align:center;color:#aab3ca;margin-bottom:28px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
+.tab{border:1px solid #303957;background:#171d35;color:#cbd5e1;padding:12px;border-radius:12px;cursor:pointer;font-weight:700}
+.tab.active{background:linear-gradient(135deg,#7c3aed,#0891b2);color:#fff}
+label{display:block;margin:14px 0 7px;color:#dbe4f5;font-size:14px}
+input{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #303957;background:#0d1327;color:#fff;outline:none;font-size:15px}
+input:focus{border-color:#22d3ee}
+.btn{width:100%;margin-top:22px;padding:14px;border:0;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+.btn:disabled{opacity:.6}
+.message{margin-top:16px;padding:12px;border-radius:10px;display:none;font-size:14px;line-height:1.5}
+.success{display:block;background:#22c55e20;border:1px solid #22c55e55;color:#86efac}
+.error{display:block;background:#ef444420;border:1px solid #ef444455;color:#fca5a5}
+.back{text-align:center;margin-top:22px}.back a{color:#67e8f9;text-decoration:none}
+.small{text-align:center;color:#8993aa;font-size:12px;margin-top:18px}
+</style>
 </head>
-
 <body>
-
-  <div class="container">
-
-    <div class="logo">Cyber<span>Shield</span></div>
-    <div class="subtitle">Cybersecurity Learning Platform</div>
-
-    <!-- LOGIN -->
-    <div id="loginBox">
-
-      <h2>Welcome Back</h2>
-
-      <label for="loginEmail">Email</label>
-      <input
-        type="email"
-        id="loginEmail"
-        placeholder="Enter your email"
-      >
-
-      <label for="loginPassword">Password</label>
-      <input
-        type="password"
-        id="loginPassword"
-        placeholder="Enter your password"
-      >
-
-      <button onclick="login()">Login</button>
-
-      <div class="message" id="loginMessage"></div>
-
-      <div class="switch">
-        Don't have an account?
-        <a onclick="showRegister()">Create Account</a>
-      </div>
-
-    </div>
-
-    <!-- REGISTER -->
-    <div id="registerBox" class="hidden">
-
-      <h2>Create Account</h2>
-
-      <label for="registerName">Full Name</label>
-      <input
-        type="text"
-        id="registerName"
-        placeholder="Enter your name"
-      >
-
-      <label for="registerEmail">Email</label>
-      <input
-        type="email"
-        id="registerEmail"
-        placeholder="Enter your email"
-      >
-
-      <label for="registerPassword">Password</label>
-      <input
-        type="password"
-        id="registerPassword"
-        placeholder="Create a password"
-      >
-
-      <button onclick="register()">Create Account</button>
-
-      <div class="message" id="registerMessage"></div>
-
-      <div class="switch">
-        Already have an account?
-        <a onclick="showLogin()">Login</a>
-      </div>
-
-    </div>
-
-    <a class="back" href="index.html">← Back to CyberShield</a>
-
-  </div>
-
-
-  <!-- Supabase -->
-  <script type="module">
-
-    import { createClient } from
-      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
-    /*
-      =====================================================
-      CYBERSHIELD SUPABASE CONFIGURATION
-      =====================================================
-
-      Replace ONLY these two values:
-
-      1. YOUR_PROJECT_URL
-      2. YOUR_PUBLISHABLE_KEY
-
-      Do NOT put your database password here.
-      Do NOT put a secret/service_role key here.
-    */
-
-    const SUPABASE_URL = "https://satyasakeths4590.github.io/cyber-shield-project/";
-
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt";
-
-    const supabaseClient = createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
-
-    // -----------------------------
-    // SHOW REGISTER
-    // -----------------------------
-
-    window.showRegister = function () {
-
-      document
-        .getElementById("loginBox")
-        .classList.add("hidden");
-
-      document
-        .getElementById("registerBox")
-        .classList.remove("hidden");
-
-    };
-
-
-    // -----------------------------
-    // SHOW LOGIN
-    // -----------------------------
-
-    window.showLogin = function () {
-
-      document
-        .getElementById("registerBox")
-        .classList.add("hidden");
-
-      document
-        .getElementById("loginBox")
-        .classList.remove("hidden");
-
-    };
-
-
-    // -----------------------------
-    // REGISTER
-    // -----------------------------
-
-    window.register = async function () {
-
-      const name =
-        document.getElementById("registerName").value.trim();
-
-      const email =
-        document.getElementById("registerEmail").value.trim();
-
-      const password =
-        document.getElementById("registerPassword").value;
-
-      const message =
-        document.getElementById("registerMessage");
-
-
-      if (!name || !email || !password) {
-
-        message.textContent =
-          "Please fill in all fields.";
-
-        return;
-      }
-
-
-      if (password.length < 6) {
-
-        message.textContent =
-          "Password must be at least 6 characters.";
-
-        return;
-      }
-
-
-      message.textContent =
-        "Creating your account...";
-
-
-      const { data, error } =
-        await supabaseClient.auth.signUp({
-
-          email: email,
-
-          password: password,
-
-          options: {
-
-            data: {
-              full_name: name
-            },
-
-            emailRedirectTo:
-              "https://satyasakeths4590.github.io/cyber-shield-project/"
-
-          }
-
-        });
-
-
-      if (error) {
-
-        message.textContent =
-          error.message;
-
-        return;
-      }
-
-
-      if (data.user) {
-
-        message.textContent =
-          "Account created! Check your email if confirmation is required.";
-
-      }
-
-    };
-
-
-    // -----------------------------
-    // LOGIN
-    // -----------------------------
-
-    window.login = async function () {
-
-      const email =
-        document.getElementById("loginEmail").value.trim();
-
-      const password =
-        document.getElementById("loginPassword").value;
-
-
-      const message =
-        document.getElementById("loginMessage");
-
-
-      if (!email || !password) {
-
-        message.textContent =
-          "Please enter your email and password.";
-
-        return;
-      }
-
-
-      message.textContent =
-        "Signing in...";
-
-
-      const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-
-          email: email,
-
-          password: password
-
-        });
-
-
-      if (error) {
-
-        message.textContent =
-          error.message;
-
-        return;
-      }
-
-
-      if (data.session) {
-
-        message.textContent =
-          "Login successful!";
-
-        setTimeout(() => {
-
-          window.location.href =
-            "dashboard.html";
-
-        }, 800);
-
-      }
-
-    };
-
-  </script>
-
+<div class="card">
+<div class="logo">Cyber<span>Shield</span></div>
+<div class="subtitle">Learn cybersecurity. Practice safely. Build your future.</div>
+<div class="tabs">
+<button class="tab active" id="loginTab" type="button">Login</button>
+<button class="tab" id="registerTab" type="button">Create Account</button>
+</div>
+<form id="authForm">
+<div id="nameGroup" style="display:none">
+<label for="name">Full Name</label>
+<input id="name" type="text" autocomplete="name" placeholder="Enter your name">
+</div>
+<label for="email">Email</label>
+<input id="email" type="email" autocomplete="email" placeholder="Enter your email" required>
+<label for="password">Password</label>
+<input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required minlength="6">
+<button class="btn" id="submitBtn" type="submit">Login</button>
+</form>
+<div id="message" class="message"></div>
+<div class="back"><a href="index.html">← Back to CyberShield</a></div>
+<div class="small">Use only an account you are authorized to use.</div>
+</div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+const SUPABASE_URL = "https://satyasakeths4590.github.io/cyber-shield-project";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt";
+
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const form=document.getElementById("authForm");
+const loginTab=document.getElementById("loginTab");
+const registerTab=document.getElementById("registerTab");
+const nameGroup=document.getElementById("nameGroup");
+const nameInput=document.getElementById("name");
+const emailInput=document.getElementById("email");
+const passwordInput=document.getElementById("password");
+const submitBtn=document.getElementById("submitBtn");
+const message=document.getElementById("message");
+let mode="login";
+
+function showMessage(text,type){message.textContent=text;message.className="message "+type}
+function setMode(newMode){
+ mode=newMode;
+ const reg=mode==="register";
+ registerTab.classList.toggle("active",reg);
+ loginTab.classList.toggle("active",!reg);
+ nameGroup.style.display=reg?"block":"none";
+ nameInput.required=reg;
+ submitBtn.textContent=reg?"Create Account":"Login";
+ passwordInput.autocomplete=reg?"new-password":"current-password";
+ message.className="message";message.textContent="";
+}
+loginTab.addEventListener("click",()=>setMode("login"));
+registerTab.addEventListener("click",()=>setMode("register"));
+
+form.addEventListener("submit",async(e)=>{
+ e.preventDefault();
+ const email=emailInput.value.trim(),password=passwordInput.value,name=nameInput.value.trim();
+ if(!email||!password){showMessage("Please enter your email and password.","error");return}
+ if(mode==="register"&&!name){showMessage("Please enter your full name.","error");return}
+ if(SUPABASE_URL.includes("PASTE_YOUR")||SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR")){
+   showMessage("Supabase URL or Publishable Key is missing in auth.html.","error");return;
+ }
+ submitBtn.disabled=true;
+ submitBtn.textContent=mode==="login"?"Logging in...":"Creating account...";
+ try{
+   if(mode==="register"){
+     const {data,error}=await supabaseClient.auth.signUp({
+       email,password,
+       options:{
+         data:{full_name:name},
+         emailRedirectTo:"https://satyasakeths4590.github.io/cyber-shield-project/"
+       }
+     });
+     if(error)throw error;
+     if(data.session){
+       showMessage("Account created successfully. Opening dashboard...","success");
+       setTimeout(()=>location.href="dashboard.html",700);
+     }else{
+       showMessage("Account created. Check your email to confirm your account, then log in.","success");
+     }
+   }else{
+     const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+     if(error)throw error;
+     showMessage("Login successful. Opening dashboard...","success");
+     setTimeout(()=>location.href="dashboard.html",500);
+   }
+ }catch(error){
+   console.error("CyberShield Auth Error:",error);
+   showMessage(error.message||"Authentication failed. Please try again.","error");
+ }finally{
+   submitBtn.disabled=false;
+   submitBtn.textContent=mode==="login"?"Login":"Create Account";
+ }
+});
+</script>
 </body>
 </html>
