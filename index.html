@@ -1,675 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="CyberShield - Learn cybersecurity through AI lessons, practical labs, quizzes and certificates.">
-  <title>CyberShield | Learn Cybersecurity</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #07111f;
-      color: #f5f7fa;
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(7, 17, 31, 0.95);
-      border-bottom: 1px solid #1d3148;
-      backdrop-filter: blur(12px);
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 18px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .logo span {
-      color: #35d0ff;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 25px;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: #c5d0dc;
-      font-size: 14px;
-    }
-
-    .nav-links a:hover {
-      color: #35d0ff;
-    }
-
-    .nav-button {
-      padding: 10px 17px;
-      border-radius: 8px;
-      background: #35d0ff;
-      color: #03101b !important;
-      font-weight: bold;
-    }
-
-    .hero {
-      min-height: 680px;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 80% 30%, rgba(53,208,255,.15), transparent 30%),
-        radial-gradient(circle at 20% 70%, rgba(86,65,255,.12), transparent 30%);
-    }
-
-    .hero-container {
-      max-width: 1200px;
-      width: 100%;
-      margin: auto;
-      padding: 80px 24px;
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 50px;
-      align-items: center;
-    }
-
-    .badge {
-      display: inline-block;
-      border: 1px solid #24506a;
-      background: #0c2032;
-      color: #6de0ff;
-      padding: 8px 14px;
-      border-radius: 30px;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: clamp(42px, 6vw, 72px);
-      line-height: 1.05;
-      margin-bottom: 22px;
-    }
-
-    .hero h1 span {
-      color: #35d0ff;
-    }
-
-    .hero p {
-      color: #aebdca;
-      font-size: 18px;
-      max-width: 650px;
-      margin-bottom: 30px;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .primary-btn,
-    .secondary-btn {
-      padding: 14px 23px;
-      border-radius: 9px;
-      font-weight: bold;
-      display: inline-block;
-    }
-
-    .primary-btn {
-      background: #35d0ff;
-      color: #03101b;
-    }
-
-    .secondary-btn {
-      border: 1px solid #38536c;
-      color: #e5edf4;
-    }
-
-    .primary-btn:hover,
-    .secondary-btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .cyber-card {
-      border: 1px solid #23415c;
-      border-radius: 20px;
-      padding: 30px;
-      background: linear-gradient(145deg, #0c1b2d, #081321);
-      box-shadow: 0 25px 70px rgba(0,0,0,.35);
-    }
-
-    .shield {
-      width: 150px;
-      height: 150px;
-      margin: auto;
-      border: 3px solid #35d0ff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 65px;
-      box-shadow: 0 0 50px rgba(53,208,255,.2);
-    }
-
-    .card-title {
-      text-align: center;
-      margin-top: 25px;
-      font-size: 25px;
-    }
-
-    .card-subtitle {
-      text-align: center;
-      color: #8fa2b4;
-      margin-top: 8px;
-    }
-
-    section {
-      padding: 90px 24px;
-    }
-
-    .section-container {
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .section-heading {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .section-heading h2 {
-      font-size: 40px;
-      margin-bottom: 12px;
-    }
-
-    .section-heading p {
-      color: #9bacbc;
-      max-width: 700px;
-      margin: auto;
-    }
-
-    .features {
-      background: #091625;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .feature-card {
-      background: #0d1d2e;
-      border: 1px solid #20394f;
-      padding: 28px;
-      border-radius: 15px;
-      transition: .2s;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-      border-color: #35d0ff;
-    }
-
-    .feature-icon {
-      font-size: 35px;
-      margin-bottom: 15px;
-    }
-
-    .feature-card h3 {
-      margin-bottom: 10px;
-    }
-
-    .feature-card p {
-      color: #9eafbf;
-      font-size: 14px;
-    }
-
-    .course-card {
-      background: linear-gradient(145deg, #0d2033, #0a1725);
-      border: 1px solid #26445e;
-      border-radius: 18px;
-      padding: 35px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 30px;
-      align-items: center;
-    }
-
-    .course-card h3 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    .course-card p {
-      color: #a8b7c5;
-      margin-bottom: 20px;
-    }
-
-    .modules {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .module {
-      background: #12283c;
-      border: 1px solid #24445c;
-      padding: 8px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-    }
-
-    .hours {
-      text-align: center;
-      padding: 20px;
-    }
-
-    .hours strong {
-      display: block;
-      font-size: 40px;
-      color: #35d0ff;
-    }
-
-    .pricing {
-      background: #091625;
-    }
-
-    .price-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 25px;
-      max-width: 850px;
-      margin: auto;
-    }
-
-    .price-card {
-      background: #0d1d2e;
-      border: 1px solid #20394f;
-      border-radius: 18px;
-      padding: 35px;
-    }
-
-    .price-card.premium {
-      border-color: #35d0ff;
-    }
-
-    .price {
-      font-size: 38px;
-      font-weight: bold;
-      margin: 15px 0;
-    }
-
-    .price small {
-      font-size: 15px;
-      color: #899cac;
-    }
-
-    .price-card ul {
-      list-style: none;
-      margin: 25px 0;
-    }
-
-    .price-card li {
-      margin: 12px 0;
-      color: #b5c2cd;
-    }
-
-    .warning {
-      max-width: 900px;
-      margin: auto;
-      background: #171b25;
-      border: 1px solid #4b4650;
-      border-radius: 15px;
-      padding: 28px;
-    }
-
-    .warning h3 {
-      margin-bottom: 12px;
-    }
-
-    .warning p {
-      color: #aeb8c2;
-      font-size: 14px;
-    }
-
-    footer {
-      border-top: 1px solid #1d3148;
-      padding: 35px 24px;
-      text-align: center;
-      color: #7f91a1;
-      background: #050d17;
-    }
-
-    footer strong {
-      color: #35d0ff;
-    }
-
-    @media (max-width: 850px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hero-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .hero p {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .buttons {
-        justify-content: center;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .course-card {
-        grid-template-columns: 1fr;
-      }
-
-      .price-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberShield — Cybersecurity Learning Platform</title>
+<meta name="description" content="CyberShield — learn cybersecurity through AI lessons, practical labs, quizzes and certificates.">
+<style>
+:root{
+  --bg:#030817;
+  --panel:#07152d;
+  --panel2:#0a1b36;
+  --line:rgba(120,170,255,.18);
+  --text:#f4f7ff;
+  --muted:#9fb0cf;
+  --cyan:#18e5ff;
+  --teal:#18e0b2;
+  --purple:#a64cff;
+  --pink:#ff4fd8;
+  --orange:#ff8a3d;
+  --yellow:#ffd447;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 75% 5%,rgba(166,76,255,.16),transparent 28%),
+    radial-gradient(circle at 25% 20%,rgba(24,229,255,.10),transparent 25%),
+    var(--bg);
+  min-height:100vh;
+}
+a{text-decoration:none;color:inherit}
+button{font:inherit}
+.container{width:min(1180px,92%);margin:auto}
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(3,8,23,.82);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+.nav{
+  height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px
+}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:23px}
+.logo{
+  width:42px;height:42px;border-radius:13px;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,#16dfff,#7c42ff);
+  box-shadow:0 0 28px rgba(24,229,255,.25);
+  font-size:22px;
+}
+.brand span{background:linear-gradient(90deg,#fff,#18e5ff,#b14cff);-webkit-background-clip:text;color:transparent}
+.links{display:flex;gap:26px;color:#bdc9df;font-size:14px}
+.links a:hover{color:white}
+.actions{display:flex;align-items:center;gap:10px}
+.btn{
+  border:1px solid var(--line);border-radius:12px;padding:11px 17px;
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  transition:.2s
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-outline{background:#07152c;color:#eaf2ff}
+.btn-gradient{
+  border:0;color:white;
+  background:linear-gradient(100deg,#18cde9,#8a42ff,#e64fd5);
+  box-shadow:0 10px 35px rgba(125,67,255,.22)
+}
+.hero{padding:72px 0 45px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);
+  background:rgba(10,27,54,.7);border-radius:999px;color:#bfe9ff;font-size:13px
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 14px var(--teal)}
+h1{font-size:clamp(42px,6vw,72px);line-height:.98;margin:22px 0 20px;letter-spacing:-2px}
+.gradient-text{background:linear-gradient(100deg,#fff,#18e5ff,#b64dff,#ff58d8);-webkit-background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:18px;line-height:1.7;max-width:650px}
+.hero-buttons{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.stats{display:flex;gap:25px;margin-top:30px;flex-wrap:wrap}
+.stat strong{font-size:24px}.stat small{display:block;color:var(--muted);margin-top:3px}
+.visual{
+  min-height:390px;border:1px solid var(--line);border-radius:28px;position:relative;overflow:hidden;
+  background:
+   radial-gradient(circle at 50% 20%,rgba(166,76,255,.35),transparent 35%),
+   linear-gradient(145deg,#07152c,#0a1230 55%,#160b32);
+  box-shadow:0 30px 90px rgba(0,0,0,.35)
+}
+.mountain{position:absolute;inset:auto 0 0;height:55%;background:linear-gradient(145deg,transparent 10%,rgba(31,61,116,.65) 45%,rgba(11,22,48,.95));clip-path:polygon(0 75%,20% 40%,36% 62%,55% 18%,72% 56%,88% 27%,100% 54%,100% 100%,0 100%)}
+.shield{
+  position:absolute;top:65px;right:17%;width:150px;height:180px;
+  clip-path:polygon(50% 0,90% 15%,84% 63%,50% 100%,16% 63%,10% 15%);
+  background:linear-gradient(150deg,#17e6ff,#713eff 65%,#e74fd8);
+  display:grid;place-items:center;filter:drop-shadow(0 0 30px rgba(24,229,255,.35))
+}
+.shield:after{content:"🔒";font-size:55px;filter:drop-shadow(0 0 10px rgba(255,255,255,.45))}
+.orb{position:absolute;border-radius:50%;filter:blur(1px)}
+.orb.one{width:18px;height:18px;background:var(--cyan);top:25%;left:14%;box-shadow:0 0 25px var(--cyan)}
+.orb.two{width:11px;height:11px;background:var(--pink);top:38%;left:78%;box-shadow:0 0 22px var(--pink)}
+.orb.three{width:14px;height:14px;background:var(--teal);top:18%;left:62%;box-shadow:0 0 20px var(--teal)}
+.floating{
+  position:absolute;padding:12px 15px;border:1px solid var(--line);background:rgba(4,13,31,.82);
+  backdrop-filter:blur(12px);border-radius:14px;color:#dce8ff;font-size:13px
+}
+.f1{left:22px;bottom:28px}.f2{right:22px;bottom:38px}.f3{left:35px;top:34px}
+.section{padding:55px 0}
+.section-title{text-align:center;max-width:720px;margin:0 auto 30px}
+.section-title h2{font-size:34px;margin-bottom:10px}
+.section-title p{color:var(--muted);line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{
+  background:linear-gradient(145deg,rgba(9,25,50,.95),rgba(5,14,31,.95));
+  border:1px solid var(--line);border-radius:20px;padding:22px;
+  transition:.25s;position:relative;overflow:hidden
+}
+.card:hover{transform:translateY(-5px);border-color:rgba(24,229,255,.38)}
+.icon{font-size:28px;margin-bottom:17px}
+.card h3{font-size:17px;margin-bottom:8px}.card p{color:var(--muted);line-height:1.55;font-size:14px}
+.course{
+  display:grid;grid-template-columns:1fr .55fr;gap:25px;align-items:center;
+  padding:30px;border:1px solid var(--line);border-radius:24px;
+  background:linear-gradient(110deg,#081a35,#120d31)
+}
+.course h2{font-size:30px;margin:10px 0}.course p{color:var(--muted);line-height:1.6}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tag{padding:7px 10px;border-radius:999px;background:#0c2343;color:#b9eaff;font-size:12px}
+.course-side{text-align:center}.progress-ring{font-size:42px;font-weight:800;color:var(--cyan)}.course-side small{color:var(--muted)}
+.pricing{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:850px;margin:auto}
+.price-card{padding:28px;border:1px solid var(--line);border-radius:22px;background:#07162e}
+.price-card.premium{background:linear-gradient(145deg,#11123c,#21113b);border-color:rgba(166,76,255,.45)}
+.price{font-size:42px;font-weight:800;margin:15px 0}.price small{font-size:14px;color:var(--muted);font-weight:400}
+.features{list-style:none;color:#cbd7ed;line-height:2;margin:18px 0 25px}.features li:before{content:"✓";color:var(--teal);margin-right:9px}
+.safety{border:1px solid rgba(255,138,61,.3);background:rgba(55,27,12,.28);padding:24px;border-radius:20px}
+.safety h3{color:#ffc08e;margin-bottom:9px}.safety p{color:#bfc9d9;line-height:1.65}
+footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
+.footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:900px){
+ .links{display:none}.hero-grid,.course{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+ .nav{height:68px}.actions .btn-outline{display:none}.hero{padding-top:45px}
+ h1{font-size:44px}.cards,.pricing{grid-template-columns:1fr}.visual{min-height:320px}
+ .stats{gap:16px}.hero p{font-size:16px}
+}
+</style>
 </head>
-
 <body>
 
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="#" class="logo">Cyber<span>Shield</span></a>
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="#home"><div class="logo">🛡️</div><span>CyberShield</span></a>
+    <nav class="links">
+      <a href="#home">Home</a><a href="#features">Features</a><a href="#course">Course</a><a href="#premium">Premium</a><a href="#safety">Safety</a>
+    </nav>
+    <div class="actions">
+      <a class="btn btn-outline" href="auth.html">Login</a>
+      <a class="btn btn-gradient" href="auth.html">Register</a>
+    </div>
+  </div>
+</header>
 
-      <div class="nav-links">
-        <a href="#courses">Courses</a>
-        <a href="#features">Features</a>
-        <a href="#pricing">Premium</a>
-        <a href="#safety">Safety</a>
-        <a href="#" class="nav-button">Login</a>
+<main id="home">
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Learn • Practice • Stay Safe</div>
+      <h1>Build Your <span class="gradient-text">Cybersecurity Future.</span></h1>
+      <p>Learn cybersecurity through AI-taught lessons, safe practical labs, quizzes, exams and verifiable certificates — all in one modern learning platform.</p>
+      <div class="hero-buttons">
+        <a class="btn btn-gradient" href="auth.html">Start Learning →</a>
+        <a class="btn btn-outline" href="#course">Explore Course</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong>13h</strong><small>Complete course</small></div>
+        <div class="stat"><strong>6</strong><small>Learning modules</small></div>
+        <div class="stat"><strong>100%</strong><small>Safe practice focus</small></div>
       </div>
     </div>
-  </nav>
+    <div class="visual">
+      <div class="orb one"></div><div class="orb two"></div><div class="orb three"></div>
+      <div class="mountain"></div><div class="shield"></div>
+      <div class="floating f1">⚡ AI Video Lessons</div>
+      <div class="floating f2">🧪 Safe Practical Labs</div>
+      <div class="floating f3">✓ Verifiable Certificates</div>
+    </div>
+  </div>
+</section>
 
-  <header class="hero">
-    <div class="hero-container">
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-title"><h2>A Different Way to Learn Cybersecurity</h2><p>CyberShield combines structured learning with hands-on practice and an AI tutor.</p></div>
+    <div class="cards">
+      <div class="card"><div class="icon">🤖</div><h3>AI Video Lessons</h3><p>AI-taught lessons explain difficult cybersecurity concepts in a simple learning flow.</p></div>
+      <div class="card"><div class="icon">🧪</div><h3>Practical Labs</h3><p>Practice safely in authorized training environments and controlled cybersecurity labs.</p></div>
+      <div class="card"><div class="icon">🎯</div><h3>Quizzes & Practice</h3><p>Test your understanding with automatic evaluation and explanations.</p></div>
+      <div class="card"><div class="icon">🏆</div><h3>Certificates</h3><p>Earn a CyberShield completion certificate with a unique verification ID.</p></div>
+    </div>
+  </div>
+</section>
 
+<section class="section" id="course">
+  <div class="container">
+    <div class="course">
       <div>
-        <div class="badge">🛡️ Learn Cybersecurity. Build Skills. Prove Them.</div>
-
-        <h1>
-          Become a
-          <span>Cybersecurity</span>
-          Professional
-        </h1>
-
-        <p>
-          Learn cybersecurity through AI-taught lessons, safe practical
-          labs, quizzes, exams and verifiable certificates.
-        </p>
-
-        <div class="buttons">
-          <a href="#courses" class="primary-btn">Start Learning</a>
-          <a href="#features" class="secondary-btn">Explore CyberShield</a>
-        </div>
+        <div class="eyebrow">Featured Course</div>
+        <h2>Cybersecurity Fundamentals</h2>
+        <p>A complete beginner-friendly path covering cybersecurity basics, networking, Linux, web security, cryptography and security awareness.</p>
+        <div class="tags"><span class="tag">13 Hours</span><span class="tag">6 Modules</span><span class="tag">Labs</span><span class="tag">Quizzes</span><span class="tag">Final Exam</span></div>
+        <a class="btn btn-gradient" href="auth.html">Start Course →</a>
       </div>
-
-      <div class="cyber-card">
-        <div class="shield">🛡️</div>
-        <h2 class="card-title">CyberShield</h2>
-        <p class="card-subtitle">
-          Your cybersecurity learning platform
-        </p>
-      </div>
-
+      <div class="course-side"><div class="progress-ring">6</div><small>Core modules</small><div style="margin-top:18px;color:#8ea4c7">Basics • Network • Linux<br>Web • Crypto • Awareness</div></div>
     </div>
-  </header>
+  </div>
+</section>
 
-  <section class="features" id="features">
-    <div class="section-container">
-
-      <div class="section-heading">
-        <h2>Everything You Need</h2>
-        <p>
-          A complete learning journey from cybersecurity fundamentals
-          to practical skills.
-        </p>
-      </div>
-
-      <div class="grid">
-
-        <div class="feature-card">
-          <div class="feature-icon">🤖</div>
-          <h3>AI Video Lessons</h3>
-          <p>
-            Learn cybersecurity concepts through structured AI-taught
-            lessons with captions and notes.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">💻</div>
-          <h3>Practical Labs</h3>
-          <p>
-            Practice safely in authorized learning environments and
-            cybersecurity training labs.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">📝</div>
-          <h3>Quizzes & Practice</h3>
-          <p>
-            Test your understanding with quizzes, explanations and
-            practice questions.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🎓</div>
-          <h3>Final Exam</h3>
-          <p>
-            Complete a final assessment and demonstrate what you have
-            learned.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🏆</div>
-          <h3>Certificates</h3>
-          <p>
-            Earn a CyberShield certificate with a unique verification
-            ID and QR verification.
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🧠</div>
-          <h3>CyberShield AI Tutor</h3>
-          <p>
-            Ask questions, understand difficult topics and receive
-            learning guidance.
-          </p>
-        </div>
-
-      </div>
+<section class="section" id="premium">
+  <div class="container">
+    <div class="section-title"><h2>Free to Start. Premium When You Want More.</h2><p>Build your skills first. Upgrade when the extra features become useful.</p></div>
+    <div class="pricing">
+      <div class="price-card"><div class="eyebrow">Free</div><div class="price">₹0</div><p style="color:#9fb0cf">Everything needed to begin learning.</p><ul class="features"><li>Courses & AI lessons</li><li>Practical labs</li><li>Quizzes & final exam</li><li>Certificate eligibility</li><li>Basic avatar items</li><li>Ads</li></ul><a class="btn btn-outline" href="auth.html" style="width:100%">Create Free Account</a></div>
+      <div class="price-card premium"><div class="eyebrow">Premium</div><div class="price">₹99 <small>/ month</small></div><p style="color:#c2bde0">Extra convenience and customization.</p><ul class="features"><li>No ads while active</li><li>Up to 5 re-learning accesses/month</li><li>Premium avatar customization</li><li>Premium profile features</li><li>Premium badge</li><li>Everything in Free</li></ul><a class="btn btn-gradient" href="auth.html" style="width:100%">Get Started</a></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="courses">
-    <div class="section-container">
-
-      <div class="section-heading">
-        <h2>Start Your First Course</h2>
-        <p>
-          Build a strong foundation before moving into advanced
-          cybersecurity topics.
-        </p>
-      </div>
-
-      <div class="course-card">
-
-        <div>
-          <h3>Cybersecurity Fundamentals</h3>
-
-          <p>
-            A complete beginner-friendly course covering the core
-            concepts every cybersecurity learner should understand.
-          </p>
-
-          <div class="modules">
-            <span class="module">Cybersecurity Basics</span>
-            <span class="module">Networking</span>
-            <span class="module">Linux</span>
-            <span class="module">Web Security</span>
-            <span class="module">Cryptography</span>
-            <span class="module">Security Awareness</span>
-          </div>
-        </div>
-
-        <div class="hours">
-          <strong>13</strong>
-          hours
-        </div>
-
-      </div>
+<section class="section" id="safety">
+  <div class="container">
+    <div class="safety">
+      <h3>🛡️ Learn Responsibly</h3>
+      <p>CyberShield is an educational platform for cybersecurity concepts, defensive security and safe authorized practice. Labs must be performed only in CyberShield labs, your own devices, or other environments where you have permission to test. CyberShield does not authorize unauthorized access, attacks, disruption, data theft or privacy violations.</p>
     </div>
-  </section>
+  </div>
+</section>
+</main>
 
-  <section class="pricing" id="pricing">
-    <div class="section-container">
-
-      <div class="section-heading">
-        <h2>Free + Premium</h2>
-        <p>
-          Start learning for free. Premium adds additional convenience
-          and personalization features.
-        </p>
-      </div>
-
-      <div class="price-grid">
-
-        <div class="price-card">
-          <h3>Free</h3>
-
-          <div class="price">
-            ₹0
-            <small> forever</small>
-          </div>
-
-          <ul>
-            <li>✓ Cybersecurity courses</li>
-            <li>✓ AI video lessons</li>
-            <li>✓ Practical labs</li>
-            <li>✓ Practice & quizzes</li>
-            <li>✓ Final exam</li>
-            <li>✓ Certificate</li>
-            <li>✓ Basic avatar</li>
-            <li>✓ Advertisements</li>
-          </ul>
-
-          <a href="#" class="secondary-btn">Start Free</a>
-        </div>
-
-        <div class="price-card premium">
-          <h3>Premium ⭐</h3>
-
-          <div class="price">
-            ₹99
-            <small>/ month</small>
-          </div>
-
-          <ul>
-            <li>✓ Everything in Free</li>
-            <li>✓ No advertisements while active</li>
-            <li>✓ Up to 5 re-learning accesses/month</li>
-            <li>✓ Premium avatar items</li>
-            <li>✓ Premium profile features</li>
-            <li>✓ Premium badge</li>
-          </ul>
-
-          <a href="#" class="primary-btn">Coming Soon</a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section id="safety">
-    <div class="section-container">
-
-      <div class="section-heading">
-        <h2>Responsible Cybersecurity</h2>
-        <p>
-          Learn cybersecurity responsibly and legally.
-        </p>
-      </div>
-
-      <div class="warning">
-        <h3>⚠️ Authorized Learning Only</h3>
-
-        <p>
-          CyberShield is an educational platform designed to teach
-          cybersecurity concepts, defensive security and safe,
-          authorized practical skills.
-          All labs and practice activities must be performed only in
-          environments where you have permission to test, such as
-          CyberShield labs, your own devices or authorized training
-          environments.
-          CyberShield does not encourage unauthorized access, attacks,
-          disruption, data theft, privacy violations or other illegal
-          activity.
-          You are responsible for how you use the knowledge and skills
-          learned through CyberShield.
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-  <footer>
-    <p>
-      <strong>CyberShield</strong> — Learn Cybersecurity Responsibly.
-    </p>
-
-    <p>
-      © 2026 CyberShield. Educational platform.
-    </p>
-  </footer>
+<footer>
+  <div class="container footer">
+    <div>🛡️ <strong>CyberShield</strong> — Learn Today. Stay Secure Tomorrow.</div>
+    <div>© 2026 CyberShield • Educational Platform</div>
+  </div>
+</footer>
 
 </body>
 </html>
