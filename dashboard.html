@@ -50,8 +50,6 @@ button{
   min-height:100vh;
 }
 
-/* SIDEBAR */
-
 .sidebar{
   width:250px;
   background:rgba(5,14,31,.95);
@@ -122,14 +120,10 @@ button{
   text-align:center;
 }
 
-/* MAIN */
-
 .main{
   margin-left:250px;
   width:calc(100% - 250px);
 }
-
-/* TOPBAR */
 
 .topbar{
   height:75px;
@@ -181,8 +175,6 @@ button{
   font-size:11px;
 }
 
-/* CONTENT */
-
 .content{
   padding:30px;
   max-width:1500px;
@@ -214,8 +206,6 @@ button{
   border-radius:999px;
   font-size:12px;
 }
-
-/* HERO */
 
 .course-hero{
   background:
@@ -292,8 +282,6 @@ button{
   transform:translateY(-2px);
 }
 
-/* RING */
-
 .ring-box{
   display:flex;
   align-items:center;
@@ -331,8 +319,6 @@ button{
   color:var(--muted);
 }
 
-/* STATS */
-
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -362,8 +348,6 @@ button{
   color:var(--muted);
   font-size:12px;
 }
-
-/* GRID */
 
 .dashboard-grid{
   display:grid;
@@ -440,8 +424,6 @@ button{
   background:rgba(24,229,255,.08);
 }
 
-/* SKILLS */
-
 .skill{
   margin-bottom:18px;
 }
@@ -469,8 +451,6 @@ button{
   border-radius:20px;
   background:linear-gradient(90deg,#18e5ff,#a64cff);
 }
-
-/* ACHIEVEMENTS */
 
 .achievements{
   display:grid;
@@ -500,8 +480,6 @@ button{
   color:var(--muted);
   font-size:9px;
 }
-
-/* ACTIVITY */
 
 .activity{
   margin-top:20px;
@@ -536,8 +514,6 @@ button{
   font-size:10px;
 }
 
-/* CERTIFICATE */
-
 .certificate{
   margin-top:20px;
   background:
@@ -568,7 +544,52 @@ button{
   background:linear-gradient(90deg,var(--teal),var(--cyan),var(--purple));
 }
 
-/* RESPONSIVE */
+/* LOADING SCREEN */
+
+#authLoading{
+  position:fixed;
+  inset:0;
+  background:#030817;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.loading-box{
+  text-align:center;
+  padding:30px;
+}
+
+.loading-logo{
+  font-size:42px;
+  margin-bottom:15px;
+}
+
+.loading-box h2{
+  margin-bottom:8px;
+}
+
+.loading-box p{
+  color:#9fb0cf;
+  font-size:14px;
+}
+
+.spinner{
+  width:35px;
+  height:35px;
+  border:3px solid #183050;
+  border-top-color:#18e5ff;
+  border-radius:50%;
+  margin:20px auto 0;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
 
 @media(max-width:1050px){
   .stats{
@@ -661,9 +682,18 @@ button{
 
 <body>
 
-<div class="layout">
+<!-- AUTH CHECK LOADING SCREEN -->
+<div id="authLoading">
+  <div class="loading-box">
+    <div class="loading-logo">🛡️</div>
+    <h2>CyberShield</h2>
+    <p>Checking your secure session...</p>
+    <div class="spinner"></div>
+  </div>
+</div>
 
-<!-- SIDEBAR -->
+
+<div class="layout">
 
 <aside class="sidebar">
 
@@ -737,8 +767,6 @@ button{
 </aside>
 
 
-<!-- MAIN -->
-
 <main class="main">
 
 <header class="topbar">
@@ -765,8 +793,6 @@ button{
 
 <div class="content">
 
-<!-- WELCOME -->
-
 <section class="welcome">
 
   <div>
@@ -780,8 +806,6 @@ button{
 
 </section>
 
-
-<!-- COURSE HERO -->
 
 <section class="course-hero">
 
@@ -837,8 +861,6 @@ button{
 </section>
 
 
-<!-- STATS -->
-
 <section class="stats">
 
   <div class="stat-card">
@@ -868,12 +890,8 @@ button{
 </section>
 
 
-<!-- DASHBOARD GRID -->
-
 <div class="dashboard-grid">
 
-
-<!-- MODULES -->
 
 <section class="panel">
 
@@ -964,8 +982,6 @@ button{
 
 </section>
 
-
-<!-- RIGHT COLUMN -->
 
 <div>
 
@@ -1077,8 +1093,6 @@ button{
 </div>
 
 
-<!-- ACHIEVEMENTS -->
-
 <section class="panel" style="margin-top:20px">
 
   <h3>🏆 Achievements</h3>
@@ -1107,8 +1121,6 @@ button{
 
 </section>
 
-
-<!-- CERTIFICATE -->
 
 <section class="certificate">
 
@@ -1139,63 +1151,61 @@ button{
 
 <script type="module">
 
-/*
-  SUPABASE CONNECTION
-
-  Replace only the two values below with the
-  SAME Project URL and Publishable Key you used
-  in auth.html.
-
-  NEVER put the service_role/secret key here.
-*/
+/* =====================================================
+   CYBERSHIELD SUPABASE AUTHENTICATION
+   ===================================================== */
 
 import {
   createClient
 } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-const SUPABASE_URL = "https://hkiszhyzguhhiughbcrj.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt";
+
+/* YOUR SUPABASE PROJECT */
+
+const SUPABASE_URL =
+  "https://hkiszhyzguhhiughbcrj.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt";
+
+
+/* CREATE SUPABASE CLIENT */
 
 const supabaseClient = createClient(
   SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
+  SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth:{
+      persistSession:true,
+      autoRefreshToken:true,
+      detectSessionInUrl:true
+    }
+  }
 );
 
 
-/* LOAD LOGGED-IN USER */
+/* LOADING SCREEN */
 
-async function loadUser(){
-
-  const {
-    data:{
-      session
-    },
-    error
-  } = await supabaseClient.auth.getSession();
+const authLoading =
+  document.getElementById("authLoading");
 
 
-  if(error){
+function hideLoading(){
 
-    console.error(error);
-    return;
-
+  if(authLoading){
+    authLoading.style.display = "none";
   }
 
+}
 
-  /*
-    If nobody is logged in,
-    send them back to Login/Register.
-  */
 
-  if(!session){
+/* DISPLAY USER */
 
-    window.location.href = "auth.html";
+function displayUser(user){
+
+  if(!user){
     return;
-
   }
-
-
-  const user = session.user;
 
   const name =
     user.user_metadata?.full_name ||
@@ -1203,14 +1213,196 @@ async function loadUser(){
     "Student";
 
 
-  document.getElementById("userName").textContent = name;
+  const userName =
+    document.getElementById("userName");
 
-  document.getElementById("welcomeName").textContent = name;
+  const welcomeName =
+    document.getElementById("welcomeName");
 
-  document.getElementById("avatar").textContent =
-    name.charAt(0).toUpperCase();
+  const avatar =
+    document.getElementById("avatar");
+
+
+  if(userName){
+    userName.textContent = name;
+  }
+
+  if(welcomeName){
+    welcomeName.textContent = name;
+  }
+
+  if(avatar){
+    avatar.textContent =
+      name.charAt(0).toUpperCase();
+  }
 
 }
+
+
+/* CHECK SESSION */
+
+async function checkAuthentication(){
+
+  try{
+
+    console.log(
+      "CyberShield: Checking Supabase session..."
+    );
+
+
+    const {
+      data,
+      error
+    } = await supabaseClient.auth.getSession();
+
+
+    console.log(
+      "CyberShield session:",
+      data?.session
+    );
+
+
+    if(error){
+
+      console.error(
+        "Supabase session error:",
+        error
+      );
+
+      hideLoading();
+
+      setTimeout(function(){
+
+        window.location.href =
+          "auth.html";
+
+      },1000);
+
+      return;
+
+    }
+
+
+    if(data && data.session){
+
+      console.log(
+        "CyberShield: User authenticated."
+      );
+
+      displayUser(
+        data.session.user
+      );
+
+      hideLoading();
+
+      return;
+
+    }
+
+
+    /*
+      Sometimes the browser needs a short moment
+      to restore the stored Supabase session.
+    */
+
+    console.log(
+      "CyberShield: No session yet. Waiting..."
+    );
+
+
+    setTimeout(async function(){
+
+      const {
+        data:retryData,
+        error:retryError
+      } = await supabaseClient.auth.getSession();
+
+
+      if(
+        !retryError &&
+        retryData &&
+        retryData.session
+      ){
+
+        console.log(
+          "CyberShield: Session restored."
+        );
+
+        displayUser(
+          retryData.session.user
+        );
+
+        hideLoading();
+
+        return;
+
+      }
+
+
+      console.log(
+        "CyberShield: No authenticated session."
+      );
+
+
+      hideLoading();
+
+
+      setTimeout(function(){
+
+        window.location.href =
+          "auth.html";
+
+      },500);
+
+    },1200);
+
+
+  }catch(error){
+
+    console.error(
+      "CyberShield authentication error:",
+      error
+    );
+
+
+    hideLoading();
+
+
+    setTimeout(function(){
+
+      window.location.href =
+        "auth.html";
+
+    },1000);
+
+  }
+
+}
+
+
+/* LISTEN FOR SUPABASE AUTH CHANGES */
+
+supabaseClient.auth.onAuthStateChange(
+  function(event,session){
+
+    console.log(
+      "CyberShield auth event:",
+      event
+    );
+
+
+    if(session){
+
+      displayUser(
+        session.user
+      );
+
+      hideLoading();
+
+    }
+
+  }
+);
 
 
 /* CONTINUE LEARNING */
@@ -1235,9 +1427,11 @@ window.certificateInfo = function(){
 };
 
 
-loadUser();
+/* START AUTH CHECK */
+
+checkAuthentication();
 
 </script>
 
 </body>
-</html>-
+</html>
