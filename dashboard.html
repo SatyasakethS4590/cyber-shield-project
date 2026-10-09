@@ -1,17 +1,116 @@
-Overall Course Progress     0%
-Progress Ring               0%
-
-🔥 Streak                   0
-⚡ Learning XP              0
-🧪 Labs Completed           0
-🎯 Quiz Average             0%
-
-Module 1                    0%
-Module 2                    0%
-Module 3                    0%
-Module 4                    0%
-Module 5                    0%
-Module 6                    0%
-
-Skill Map                   0%
-Certificate Progress        0%
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d1b">
+<title>CyberShield — Student Dashboard</title>
+<style>
+:root{--bg:#080d1b;--panel:#11182b;--line:#283451;--text:#f4f7ff;--muted:#9ba8c4;--cyan:#22d3ee;--purple:#8b5cf6}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#17214a 0%,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}a{color:inherit;text-decoration:none}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}.sidebar{background:#0b1121;border-right:1px solid var(--line);padding:25px 17px;display:flex;flex-direction:column;gap:26px}.brand{display:flex;align-items:center;gap:11px;font-size:21px;font-weight:850;padding:0 9px}.brand-mark{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--purple),#0891b2);font-size:21px}.brand span{color:var(--cyan)}.nav-label{color:#687796;font-size:10px;font-weight:800;letter-spacing:1.6px;padding:0 12px;margin-bottom:-15px}.nav{display:grid;gap:6px}.nav a,.nav button{border:1px solid transparent;background:transparent;color:#aeb9d0;padding:12px 13px;border-radius:12px;text-align:left;display:flex;align-items:center;gap:12px;cursor:pointer;font-size:14px;width:100%}.nav a:hover,.nav button:hover,.nav .active{background:linear-gradient(90deg,#7c3aed2b,#0891b21c);border-color:#39456b;color:white}.nav-icon{width:21px;text-align:center;font-size:17px}.sidebar-bottom{margin-top:auto;border:1px solid var(--line);background:linear-gradient(145deg,#151c33,#101629);padding:16px;border-radius:16px}.sidebar-bottom strong{display:block;font-size:13px;margin-bottom:6px}.sidebar-bottom p{font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 12px}.small-link{color:var(--cyan);font-size:12px;font-weight:700}
+main{min-width:0;padding:26px clamp(18px,3vw,42px) 42px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:27px}.breadcrumb{color:var(--muted);font-size:13px}.breadcrumb b{color:#fff}.top-actions{display:flex;align-items:center;gap:12px}.search{width:min(300px,34vw);position:relative}.search input{width:100%;background:#11182b;border:1px solid var(--line);border-radius:12px;padding:12px 14px 12px 39px;color:white;outline:none}.search input:focus{border-color:var(--cyan)}.search span{position:absolute;left:13px;top:10px;color:#8190ad}.profile{display:flex;align-items:center;gap:10px;padding:7px 10px;border:1px solid var(--line);border-radius:14px;background:#11182b;max-width:230px}.avatar{width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#8b5cf6,#0891b2);font-weight:800}.profile-name{font-size:12px;font-weight:750;max-width:135px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.profile-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.welcome{position:relative;overflow:hidden;border:1px solid #3a416b;border-radius:24px;padding:clamp(23px,3vw,38px);background:linear-gradient(110deg,#171b3a,#172844 54%,#12333c);margin-bottom:23px}.welcome:before{content:"";position:absolute;width:290px;height:290px;right:-50px;top:-150px;border-radius:50%;border:1px solid #6d8bb94a;box-shadow:0 0 0 32px #6d8bb911,0 0 0 64px #6d8bb908}.welcome-content{position:relative;z-index:1;max-width:700px}.eyebrow{color:#8eeafa;text-transform:uppercase;font-size:10px;font-weight:850;letter-spacing:1.7px;margin-bottom:12px}h1{font-size:clamp(27px,3.4vw,42px);letter-spacing:-1.4px;line-height:1.12;margin:0 0 12px}.welcome p{max-width:600px;color:#bdc9e0;font-size:14px;line-height:1.7;margin:0 0 22px}.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;border:1px solid transparent;background:linear-gradient(135deg,#8b5cf6,#0891b2);color:white;font-size:13px;font-weight:800;cursor:pointer}.btn:hover{filter:brightness(1.1)}.btn.secondary{background:#ffffff0a;border-color:#52607e;color:#e5edff}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:28px 0 15px}.section-head h2{font-size:18px;margin:0;letter-spacing:-.35px}.section-head p{font-size:12px;color:var(--muted);margin:5px 0 0}.muted{font-size:12px;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.stat{border:1px solid var(--line);border-radius:17px;padding:17px;background:linear-gradient(145deg,#131b30,#0f1628);min-width:0}.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font-size:12px}.stat-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#8b5cf620;font-size:17px}.stat-value{font-size:28px;font-weight:850;letter-spacing:-1px;margin:14px 0 5px}.stat-note{font-size:11px;color:#8492af}.content-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(270px,.85fr);gap:17px;margin-top:17px}.panel{border:1px solid var(--line);border-radius:19px;background:linear-gradient(145deg,#121a2d,#0f1627);padding:21px;min-width:0}.panel h3{font-size:15px;margin:0}.panel-sub{font-size:12px;color:var(--muted);margin:6px 0 18px}.progress-overview{display:flex;align-items:center;gap:25px}.ring{--progress:0%;width:128px;height:128px;flex:0 0 128px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--cyan) var(--progress),#28344d 0);position:relative}.ring:before{content:"";position:absolute;inset:9px;background:#11182b;border-radius:50%}.ring-inner{position:relative;text-align:center}.ring-inner strong{display:block;font-size:28px;letter-spacing:-1px}.ring-inner span{font-size:10px;color:var(--muted)}.progress-details{flex:1;min-width:0}.progress-details strong{font-size:14px}.progress-details p{font-size:12px;color:var(--muted);line-height:1.55;margin:7px 0 13px}.mini-row{display:flex;justify-content:space-between;gap:12px;font-size:11px;margin:10px 0 6px;color:#c5cee2}.bar{height:6px;background:#27324a;border-radius:99px;overflow:hidden}.bar span{height:100%;display:block;width:0;background:linear-gradient(90deg,var(--purple),var(--cyan));border-radius:99px;transition:width .35s}
+.module-list{display:grid;gap:10px}.module{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid #293550;border-radius:13px;background:#0d1425;min-width:0}.module-icon{width:39px;height:39px;border-radius:12px;display:grid;place-items:center;flex:0 0 39px;background:#8b5cf61f}.module-info{min-width:0;flex:1}.module-info strong{font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.module-info small{font-size:11px;color:var(--muted);display:block;margin-top:4px}.module-percent{font-size:12px;font-weight:800;white-space:nowrap}.skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.skill{padding:12px 8px;border-radius:12px;background:#0d1425;border:1px solid #293550;text-align:center}.skill span{font-size:19px}.skill strong{display:block;font-size:11px;margin-top:7px}.skill small{font-size:10px;color:var(--muted)}.activity{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #27324a}.activity:last-child{border-bottom:0;padding-bottom:0}.activity-icon{width:32px;height:32px;border-radius:10px;background:#22d3ee16;display:grid;place-items:center;flex:0 0 32px}.activity strong{display:block;font-size:12px}.activity p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.5}.achievement-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.achievement{border:1px solid #293550;border-radius:13px;background:#0d1425;padding:12px 8px;text-align:center;opacity:.7}.medal{font-size:23px;filter:grayscale(1)}.achievement strong{display:block;font-size:10px;margin:6px 0 4px}.achievement small{font-size:9px;color:var(--muted)}.notice{display:none;border:1px solid #f59e0b70;background:#f59e0b12;color:#fde68a;padding:12px 14px;border-radius:12px;font-size:12px;line-height:1.5;margin-bottom:15px}.notice.show{display:block}.footer{padding:24px 0 0;color:#657391;font-size:11px;text-align:center}.mobile-menu{display:none}.empty-state{color:var(--muted);font-size:12px;line-height:1.6}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:minmax(0,1fr)}}@media(max-width:760px){.layout{grid-template-columns:1fr}.sidebar{display:none;position:fixed;z-index:20;inset:0 auto 0 0;width:270px;overflow:auto;box-shadow:15px 0 45px #0009}.sidebar.open{display:flex}.mobile-menu{display:inline-flex;border:1px solid var(--line);background:#11182b;color:#fff;padding:10px 12px;border-radius:11px;cursor:pointer}.topbar{align-items:flex-start;flex-wrap:wrap}.top-actions{flex:1;justify-content:flex-end}.search{width:min(240px,52vw)}.profile{max-width:48px}.profile-text{display:none}main{padding:18px 15px 30px}.progress-overview{align-items:flex-start;flex-direction:column}.ring{width:112px;height:112px;flex-basis:112px}.welcome{padding:24px}.section-head{margin-top:23px}}@media(max-width:420px){.stats{gap:9px}.stat{padding:13px}.stat-value{font-size:24px}.stat-top{font-size:11px}.search{width:100%;order:3;flex-basis:100%}.top-actions{flex-wrap:wrap}.skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.achievement-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.panel{padding:16px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+<a class="brand" href="index.html"><span class="brand-mark">🛡️</span><span style="color:#fff">Cyber<span>Shield</span></span></a>
+<div class="nav-label">LEARNING SPACE</div>
+<nav class="nav" aria-label="Main navigation">
+<a class="active" href="dashboard.html"><span class="nav-icon">▦</span>Dashboard</a>
+<a href="courses.html"><span class="nav-icon">📚</span>My Course</a><a href="ai-tutor.html"><span class="nav-icon">🤖</span>AI Tutor</a><a href="labs.html"><span class="nav-icon">🧪</span>Practical Labs</a><a href="quizzes.html"><span class="nav-icon">🎯</span>Quizzes</a><a href="final-exam.html"><span class="nav-icon">📝</span>Final Exam</a><a href="certificates.html"><span class="nav-icon">🏆</span>Certificates</a>
+</nav><div class="nav-label">YOUR ACCOUNT</div><nav class="nav" aria-label="Account navigation"><a href="achievements.html"><span class="nav-icon">✨</span>Achievements</a><a href="profile.html"><span class="nav-icon">👤</span>Profile</a><a href="settings.html"><span class="nav-icon">⚙️</span>Settings</a><button id="logoutBtn" type="button"><span class="nav-icon">↪</span>Log out</button></nav>
+<div class="sidebar-bottom"><strong>Learn safely. Grow confidently.</strong><p>Practice only in CyberShield labs, your own devices, or environments where you have permission.</p><a class="small-link" href="index.html#safety">Read safety guidelines →</a></div>
+</aside>
+<main>
+<header class="topbar"><div style="display:flex;align-items:center;gap:12px"><button class="mobile-menu" id="menuBtn" aria-label="Open navigation" type="button">☰</button><div class="breadcrumb">CyberShield <span style="color:#56627e"> / </span> <b>Dashboard</b></div></div><div class="top-actions"><label class="search"><span>⌕</span><input id="moduleSearch" type="search" placeholder="Search modules..." aria-label="Search modules"></label><div class="profile"><div class="avatar" id="avatarInitial">S</div><div class="profile-text"><div class="profile-name" id="profileName">Student</div><div class="profile-sub">Free learner</div></div></div></div></header>
+<div id="statusNotice" class="notice" role="status"></div>
+<section class="welcome"><div class="welcome-content"><div class="eyebrow">YOUR CYBERSECURITY JOURNEY</div><h1>Welcome back, <span id="welcomeName">Learner</span>.</h1><p>Build practical cybersecurity skills one lesson at a time. Learn the concepts, practise safely, and track your progress as you go.</p><a class="btn" href="courses.html">▶ &nbsp; Continue learning</a> <a class="btn secondary" href="#modules" style="margin-left:8px">Explore modules</a></div></section>
+<section class="stats" aria-label="Learning statistics">
+<article class="stat"><div class="stat-top">🔥 Streak <span class="stat-icon">🔥</span></div><div class="stat-value"><span id="streakValue">0</span><span style="font-size:13px;color:var(--muted);font-weight:600"> days</span></div><div class="stat-note">Keep learning regularly</div></article>
+<article class="stat"><div class="stat-top">⚡ Learning XP <span class="stat-icon">⚡</span></div><div class="stat-value" id="xpValue">0</div><div class="stat-note">Earn XP through activities</div></article>
+<article class="stat"><div class="stat-top">🧪 Labs Completed <span class="stat-icon">🧪</span></div><div class="stat-value"><span id="labsValue">0</span><span style="font-size:13px;color:var(--muted);font-weight:600"> / <span id="labsTotal">24</span></span></div><div class="stat-note">Safe hands-on practice</div></article>
+<article class="stat"><div class="stat-top">🎯 Quiz Average <span class="stat-icon">🎯</span></div><div class="stat-value"><span id="quizAverage">0</span><span style="font-size:16px">%</span></div><div class="stat-note">Based on completed quizzes</div></article>
+</section>
+<div class="section-head"><div><h2>Learning overview</h2><p>Your progress is saved to your account.</p></div><span class="muted" id="lastUpdated">Loading progress…</span></div>
+<section class="content-grid">
+<article class="panel"><h3>Overall Course Progress</h3><p class="panel-sub">Cybersecurity Fundamentals · 13-hour learning path</p><div class="progress-overview"><div class="ring" id="progressRing" style="--progress:0%"><div class="ring-inner"><strong id="ringPercent">0%</strong><span>COMPLETE</span></div></div><div class="progress-details"><strong id="progressHeadline">Your journey starts here</strong><p id="progressMessage">Complete lessons, labs, quizzes, and the final exam to build your course progress.</p><div class="mini-row"><span>Video lessons · 6 hours</span><b id="videoPercent">0%</b></div><div class="bar"><span id="videoBar"></span></div><div class="mini-row"><span>Practical labs · 4 hours</span><b id="labPercent">0%</b></div><div class="bar"><span id="labBar"></span></div><div class="mini-row"><span>Quizzes · 2 hours</span><b id="quizPercent">0%</b></div><div class="bar"><span id="quizBar"></span></div><div class="mini-row"><span>Final exam · 1 hour</span><b id="examPercent">0%</b></div><div class="bar"><span id="examBar"></span></div></div></div></article>
+<article class="panel"><h3>Skill Map</h3><p class="panel-sub">Skills develop as you complete course activities.</p><div class="skill-grid"><div class="skill"><span>🛡️</span><strong>Security Basics</strong><small id="skill1">0% progress</small></div><div class="skill"><span>🌐</span><strong>Networking</strong><small id="skill2">0% progress</small></div><div class="skill"><span>🐧</span><strong>Linux</strong><small id="skill3">0% progress</small></div><div class="skill"><span>🕸️</span><strong>Web Security</strong><small id="skill4">0% progress</small></div><div class="skill"><span>🔐</span><strong>Cryptography</strong><small id="skill5">0% progress</small></div><div class="skill"><span>🧠</span><strong>Awareness</strong><small id="skill6">0% progress</small></div></div></article>
+</section>
+<section class="content-grid" id="modules">
+<article class="panel"><div class="section-head" style="margin:0 0 16px"><div><h3>Course modules</h3><p class="panel-sub" style="margin-bottom:0">Six modules · progress starts at zero</p></div><span class="muted" id="moduleCount">6 modules</span></div>
+<div class="module-list" id="moduleList">
+<div class="module" data-search="cybersecurity basics"><div class="module-icon">🛡️</div><div class="module-info"><strong>Module 1 · Cybersecurity Basics</strong><small>Threats, vulnerabilities, CIA triad</small><div class="bar" style="margin-top:8px"><span id="moduleBar1"></span></div></div><div class="module-percent" id="modulePercent1">0%</div></div>
+<div class="module" data-search="networking ip dns tcp udp"><div class="module-icon">🌐</div><div class="module-info"><strong>Module 2 · Networking</strong><small>IP, TCP/UDP, DNS, HTTPS, firewalls</small><div class="bar" style="margin-top:8px"><span id="moduleBar2"></span></div></div><div class="module-percent" id="modulePercent2">0%</div></div>
+<div class="module" data-search="linux permissions processes"><div class="module-icon">🐧</div><div class="module-info"><strong>Module 3 · Linux</strong><small>Files, permissions, processes, commands</small><div class="bar" style="margin-top:8px"><span id="moduleBar3"></span></div></div><div class="module-percent" id="modulePercent3">0%</div></div>
+<div class="module" data-search="web security secure coding owasp"><div class="module-icon">🕸️</div><div class="module-info"><strong>Module 4 · Web Security</strong><small>Common vulnerabilities and secure coding</small><div class="bar" style="margin-top:8px"><span id="moduleBar4"></span></div></div><div class="module-percent" id="modulePercent4">0%</div></div>
+<div class="module" data-search="cryptography encryption hashing"><div class="module-icon">🔐</div><div class="module-info"><strong>Module 5 · Cryptography</strong><small>Encryption, hashing, signatures, certificates</small><div class="bar" style="margin-top:8px"><span id="moduleBar5"></span></div></div><div class="module-percent" id="modulePercent5">0%</div></div>
+<div class="module" data-search="security awareness phishing passwords"><div class="module-icon">🧠</div><div class="module-info"><strong>Module 6 · Security Awareness</strong><small>Phishing, passwords, safe browsing</small><div class="bar" style="margin-top:8px"><span id="moduleBar6"></span></div></div><div class="module-percent" id="modulePercent6">0%</div></div>
+</div><p id="noSearchResults" class="empty-state" style="display:none;margin-top:15px">No modules match your search.</p></article>
+<article class="panel"><h3>Certificate Progress</h3><p class="panel-sub">Finish the required activities and pass the final exam to qualify.</p><div class="ring" style="--progress:0%;width:106px;height:106px;margin:5px auto 16px" id="certificateRing"><div class="ring-inner"><strong id="certificatePercent">0%</strong><span>ELIGIBILITY</span></div></div><div class="mini-row"><span>Required activities</span><b id="certificateActivityText">0 / 3</b></div><div class="bar"><span id="certificateBar"></span></div><p class="empty-state" id="certificateMessage" style="margin-top:14px">Your certificate will become available when course requirements are met and the final exam is passed.</p><a class="btn secondary" href="certificates.html" style="width:100%;margin-top:10px">View certificates</a></article>
+</section>
+<section class="content-grid"><article class="panel"><h3>Recent activity</h3><p class="panel-sub">Your learning milestones appear here.</p><div class="activity"><div class="activity-icon">👋</div><div><strong>Welcome to CyberShield</strong><p>Account connected. Start your first lesson to begin building progress.</p></div></div><div class="activity"><div class="activity-icon">📘</div><div><strong>Cybersecurity Fundamentals</strong><p>Your 13-hour learning path is ready when you are.</p></div></div></article>
+<article class="panel"><h3>Achievements</h3><p class="panel-sub">Milestones unlock as you learn.</p><div class="achievement-grid"><div class="achievement"><div class="medal">🌱</div><strong>First Steps</strong><small>Complete a lesson</small></div><div class="achievement"><div class="medal">🧪</div><strong>Lab Starter</strong><small>Complete a lab</small></div><div class="achievement"><div class="medal">🏆</div><strong>Exam Ready</strong><small>Pass the final exam</small></div></div></article></section>
+<footer class="footer">CyberShield · Learn cybersecurity responsibly. Use practical skills only where you have permission.</footer>
+</main></div>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+const SUPABASE_URL = "https://hkiszhyzguhhiughbcrj.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt";
+const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const $ = id => document.getElementById(id);
+function showNotice(message){const box=$("statusNotice");box.textContent=message;box.classList.add("show")}
+function clampPercent(value){const n=Number(value);return Number.isFinite(n)?Math.max(0,Math.min(100,Math.round(n))):0}
+function setBar(id,p){const el=$(id);if(el)el.style.width=clampPercent(p)+"%"}
+function setText(id,value){const el=$(id);if(el)el.textContent=String(value)}
+function percent(part,total){const t=Number(total);return !Number.isFinite(t)||t<=0?0:clampPercent((Number(part)||0)/t*100)}
+function updateDashboard(row){
+ const videoTotal=Number(row.video_total_minutes)>0?Number(row.video_total_minutes):360,videoDone=Math.max(0,Number(row.video_completed_minutes)||0);
+ const labsTotal=Number(row.labs_total)>0?Number(row.labs_total):24,labsDone=Math.max(0,Number(row.labs_completed)||0);
+ const quizzesTotal=Number(row.quizzes_total)>0?Number(row.quizzes_total):6,quizzesDone=Math.max(0,Number(row.quizzes_completed)||0),examDone=row.exam_completed===true;
+ const vp=percent(videoDone,videoTotal),lp=percent(labsDone,labsTotal),qp=percent(quizzesDone,quizzesTotal),ep=examDone?100:0;
+ const overall=clampPercent((vp*6+lp*4+qp*2+ep)/13);
+ $("progressRing").style.setProperty("--progress",overall+"%");setText("ringPercent",overall+"%");
+ setText("streakValue",Math.max(0,Number(row.streak_days)||0));setText("xpValue",Math.max(0,Number(row.xp)||0));
+ setText("labsValue",Math.min(labsDone,labsTotal));setText("labsTotal",labsTotal);
+ // The current schema has no quiz-score field; show zero rather than inventing an average.
+ setText("quizAverage",0);setText("videoPercent",vp+"%");setText("labPercent",lp+"%");setText("quizPercent",qp+"%");setText("examPercent",ep+"%");
+ setBar("videoBar",vp);setBar("labBar",lp);setBar("quizBar",qp);setBar("examBar",ep);
+ // Individual module completion will be connected when lesson-level tracking is added.
+ for(let i=1;i<=6;i++){setText("modulePercent"+i,"0%");setBar("moduleBar"+i,0);setText("skill"+i,"0% progress")}
+ const activities=(videoDone>0?1:0)+(labsDone>0?1:0)+(quizzesDone>0?1:0),cp=clampPercent(activities/3*100);
+ $("certificateRing").style.setProperty("--progress",cp+"%");setText("certificatePercent",cp+"%");setText("certificateActivityText",activities+" / 3");setBar("certificateBar",cp);
+ setText("certificateMessage",examDone&&overall>=70?"Your recorded progress may meet the learning threshold. Certificate eligibility must be confirmed by the exam system.":"Complete lessons, labs, quizzes, and pass the final exam to qualify for a certificate.");
+ setText("progressHeadline",overall===0?"Your journey starts here":"You're making progress");
+ setText("progressMessage",overall===0?"Complete lessons, labs, quizzes, and the final exam to build your course progress.":"Your saved activity is reflected below. Keep practising to complete the course.");
+ setText("lastUpdated","Progress synced");
+}
+async function loadProgress(userId){
+ const {data,error}=await supabase.from("course_progress").select("*").eq("user_id",userId).maybeSingle();
+ if(error){console.error("Progress read error:",error);showNotice("We couldn't load saved progress. Check that the course_progress SELECT policy lets signed-in users read only their own row.");return}
+ if(data){updateDashboard(data);return}
+ const row={user_id:userId,video_completed_minutes:0,video_total_minutes:360,labs_completed:0,labs_total:24,quizzes_completed:0,quizzes_total:6,exam_completed:false,xp:0,streak_days:0};
+ const {data:inserted,error:insertError}=await supabase.from("course_progress").insert(row).select("*").single();
+ if(insertError){console.error("Progress insert error:",insertError);showNotice("The dashboard is showing zero progress, but could not save the initial row. Check the course_progress INSERT policy and trigger.");updateDashboard(row);return}
+ updateDashboard(inserted);
+}
+async function init(){
+ const {data:{session},error}=await supabase.auth.getSession();
+ if(error)console.error("Session check:",error);
+ if(!session){window.location.replace("auth.html");return}
+ const user=session.user,name=(user.user_metadata?.full_name||user.user_metadata?.name||(user.email||"student").split("@")[0]).trim();
+ setText("welcomeName",name.split(/\s+/)[0]||"Learner");setText("profileName",name||"Student");setText("avatarInitial",(name[0]||"S").toUpperCase());
+ await loadProgress(user.id);
+}
+$("logoutBtn").addEventListener("click",async()=>{const {error}=await supabase.auth.signOut();if(error){showNotice("Logout failed: "+error.message);return}window.location.replace("auth.html")});
+$("menuBtn").addEventListener("click",()=>$("sidebar").classList.toggle("open"));
+$("moduleSearch").addEventListener("input",event=>{const q=event.target.value.trim().toLowerCase(),modules=[...document.querySelectorAll(".module")];let visible=0;for(const m of modules){const match=(m.dataset.search||m.textContent).toLowerCase().includes(q);m.style.display=match?"flex":"none";if(match)visible++}setText("moduleCount",visible+(visible===1?" module":" modules"));$("noSearchResults").style.display=visible?"none":"block"});
+init();
+</script>
+</body>
+</html>
