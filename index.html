@@ -125,9 +125,22 @@ h1{font-size:clamp(42px,6vw,72px);line-height:.98;margin:22px 0 20px;letter-spac
 .course h2{font-size:30px;margin:10px 0}.course p{color:var(--muted);line-height:1.6}
 .tags{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tag{padding:7px 10px;border-radius:999px;background:#0c2343;color:#b9eaff;font-size:12px}
 .course-side{text-align:center}.progress-ring{font-size:42px;font-weight:800;color:var(--cyan)}.course-side small{color:var(--muted)}
-.pricing{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:850px;margin:auto}
+.pricing{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;max-width:1120px;margin:auto}
 .price-card{padding:28px;border:1px solid var(--line);border-radius:22px;background:#07162e}
 .price-card.premium{background:linear-gradient(145deg,#11123c,#21113b);border-color:rgba(166,76,255,.45)}
+.price-card.lifetime{background:linear-gradient(145deg,#092c36,#10213b);border-color:rgba(45,212,191,.55);position:relative;overflow:hidden}
+.price-card.lifetime:after{content:"";position:absolute;inset:-80% -40%;background:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.08) 50%,transparent 58%);transform:translateX(-65%);animation:priceShimmer 4s ease-in-out infinite;pointer-events:none}
+.price-stack{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:15px 0}
+.old-price{font-size:23px;color:#a9b4c8;position:relative;display:inline-block;animation:oldPriceIn .7s ease both}
+.old-price:after{content:"";position:absolute;left:-3px;right:-3px;top:52%;height:2px;background:#ff667d;transform:scaleX(0);transform-origin:left;animation:strikePrice .65s .45s ease forwards}
+.new-price{font-size:44px;font-weight:900;color:#65f0d0;text-shadow:0 0 22px rgba(101,240,208,.24);animation:dealPop .75s .25s cubic-bezier(.2,.8,.2,1) both}
+.price-badge{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(255,102,125,.14);color:#ff9aa9;border:1px solid rgba(255,102,125,.3);font-size:12px;font-weight:800;animation:badgePulse 2.5s 1s ease-in-out infinite}
+@keyframes strikePrice{to{transform:scaleX(1)}}
+@keyframes oldPriceIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes dealPop{0%{opacity:0;transform:translateY(12px) scale(.92)}70%{transform:translateY(-2px) scale(1.04)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(255,102,125,0)}50%{box-shadow:0 0 0 5px rgba(255,102,125,.08)}}
+@keyframes priceShimmer{0%,55%{transform:translateX(-65%)}85%,100%{transform:translateX(65%)}}
+@media(prefers-reduced-motion:reduce){.price-card.lifetime:after,.old-price,.old-price:after,.new-price,.price-badge{animation:none}.old-price:after{transform:scaleX(1)}}
 .price{font-size:42px;font-weight:800;margin:15px 0}.price small{font-size:14px;color:var(--muted);font-weight:400}
 .features{list-style:none;color:#cbd7ed;line-height:2;margin:18px 0 25px}.features li:before{content:"✓";color:var(--teal);margin-right:9px}
 .safety{border:1px solid rgba(255,138,61,.3);background:rgba(55,27,12,.28);padding:24px;border-radius:20px}
@@ -135,7 +148,7 @@ h1{font-size:clamp(42px,6vw,72px);line-height:.98;margin:22px 0 20px;letter-spac
 footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
 .footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 @media(max-width:900px){
- .links{display:none}.hero-grid,.course{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}
+ .links{display:none}.hero-grid,.course{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}.pricing{grid-template-columns:1fr 1fr}
 }
 @media(max-width:560px){
  .nav{height:68px}.actions .btn-outline{display:none}.hero{padding-top:45px}
@@ -215,11 +228,13 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
 
 <section class="section" id="premium">
   <div class="container">
-    <div class="section-title"><h2>Free to Start. Premium When You Want More.</h2><p>Build your skills first. Upgrade when the extra features become useful.</p></div>
+    <div class="section-title"><h2>Choose How You Want to Learn</h2><p>Start free, subscribe monthly, or choose one-time course access.</p></div>
     <div class="pricing">
       <div class="price-card"><div class="eyebrow">Free</div><div class="price">₹0</div><p style="color:#9fb0cf">Everything needed to begin learning.</p><ul class="features"><li>Courses & AI lessons</li><li>Practical labs</li><li>Quizzes & final exam</li><li>Certificate eligibility</li><li>Basic avatar items</li><li>Ads</li></ul><a class="btn btn-outline" href="auth.html" style="width:100%">Create Free Account</a></div>
-      <div class="price-card premium"><div class="eyebrow">Premium</div><div class="price">₹99 <small>/ month</small></div><p style="color:#c2bde0">Extra convenience and customization.</p><ul class="features"><li>No ads while active</li><li>Up to 5 re-learning accesses/month</li><li>Premium avatar customization</li><li>Premium profile features</li><li>Premium badge</li><li>Everything in Free</li></ul><a class="btn btn-gradient" href="auth.html" style="width:100%">Get Started</a></div>
+      <div class="price-card premium"><div class="eyebrow">Monthly Premium</div><div class="price">₹249 <small>/ month</small></div><p style="color:#c2bde0">Premium features for as long as your subscription is active.</p><ul class="features"><li>No ads while active</li><li>Up to 5 re-learning accesses/month</li><li>Premium avatar customization</li><li>Premium profile features</li><li>Premium badge</li><li>Everything in Free</li></ul><a class="btn btn-gradient" href="auth.html" style="width:100%">Choose Monthly</a></div>
+      <div class="price-card lifetime"><div class="eyebrow">One-time Course Access</div><div class="price-stack"><span class="old-price">₹599</span><span class="new-price">₹539</span><span class="price-badge">Limited-time offer</span></div><p style="color:#b8d8df">Pay once and enjoy the full course, unlimited lesson replays, and an ad-free learning experience — with no monthly subscription.</p><ul class="features"><li>Full course access with a one-time payment</li><li>Unlimited lesson replays — watch lessons again and again</li><li>Completely ad-free learning</li><li>Course lessons and learning materials</li><li>Practical labs and quizzes</li><li>Final exam eligibility</li><li>Course progress tracking</li><li>No monthly subscription</li></ul><a class="btn btn-gradient" href="auth.html" style="width:100%">Get Full Course</a></div>
     </div>
+    <p style="max-width:900px;margin:18px auto 0;text-align:center;color:#8798b8;font-size:12px;line-height:1.6">Pricing display only: secure checkout and payment confirmation must be connected before these options can accept payments. Course features and access terms should be finalized before launch.</p>
   </div>
 </section>
 
