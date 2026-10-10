@@ -196,6 +196,60 @@ $("logoutBtn").addEventListener("click",async()=>{const {error}=await supabase.a
 $("menuBtn").addEventListener("click",()=>$("sidebar").classList.toggle("open"));
 $("moduleSearch").addEventListener("input",event=>{const q=event.target.value.trim().toLowerCase(),modules=[...document.querySelectorAll(".module")];let visible=0;for(const m of modules){const match=(m.dataset.search||m.textContent).toLowerCase().includes(q);m.style.display=match?"flex":"none";if(match)visible++}setText("moduleCount",visible+(visible===1?" module":" modules"));$("noSearchResults").style.display=visible?"none":"block"});
 init();
+ 
+<section class="content-grid" id="plans">
+  <article class="panel" style="grid-column: 1 / -1">
+    <h3>Choose Your CyberShield Plan</h3>
+    <p class="panel-sub">
+      Explore the available learning options for your account.
+    </p>
+
+    <div class="plan-grid">
+      <article class="plan-card">
+        <h3>Free Learner</h3>
+        <div class="plan-price">₹0</div>
+        <p>Start learning cybersecurity at no cost.</p>
+        <ul>
+          <li>Course learning materials</li>
+          <li>Practice quizzes and labs</li>
+          <li>Progress tracking</li>
+        </ul>
+        <a class="btn secondary" href="index.html#premium">
+          View Plan
+        </a>
+      </article>
+
+      <article class="plan-card">
+        <h3>Monthly Premium</h3>
+        <div class="plan-price">₹249 <small>/ month</small></div>
+        <p>Premium features while your subscription is active.</p>
+        <ul>
+          <li>Ad-free learning</li>
+          <li>Premium profile features</li>
+          <li>Premium avatar customization</li>
+        </ul>
+        <a class="btn" href="index.html#premium">
+          View Plan
+        </a>
+      </article>
+
+      <article class="plan-card">
+        <h3>Full Course</h3>
+        <div class="plan-price">₹539</div>
+        <p>One-time course access.</p>
+        <ul>
+          <li>Course lessons and materials</li>
+          <li>Practical labs and quizzes</li>
+          <li>Course progress tracking</li>
+        </ul>
+        <a class="btn" href="index.html#premium">
+          View Plan
+        </a>
+      </article>
+    </div>
+  </article>
+</section>
+
 </script>
 </body>
 </html>
