@@ -6,6 +6,52 @@
 <meta name="theme-color" content="#080d1b">
 <title>CyberShield — Student Dashboard</title>
 <style>
+ 
+/* CyberShield plan cards */
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.plan-card {
+  background: linear-gradient(145deg, #121a2d, #0d1425);
+  border: 1px solid #283451;
+  border-radius: 16px;
+  padding: 20px;
+  min-width: 0;
+}
+
+.plan-card h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+
+.plan-price {
+  font-size: 28px;
+  font-weight: 850;
+  margin: 12px 0;
+}
+
+.plan-card p,
+.plan-card li {
+  color: #9ba8c4;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.plan-card ul {
+  padding-left: 18px;
+  margin-bottom: 18px;
+}
+
+@media (max-width: 900px) {
+  .plan-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 :root{--bg:#080d1b;--panel:#11182b;--line:#283451;--text:#f4f7ff;--muted:#9ba8c4;--cyan:#22d3ee;--purple:#8b5cf6}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#17214a 0%,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}a{color:inherit;text-decoration:none}
 .layout{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}.sidebar{background:#0b1121;border-right:1px solid var(--line);padding:25px 17px;display:flex;flex-direction:column;gap:26px}.brand{display:flex;align-items:center;gap:11px;font-size:21px;font-weight:850;padding:0 9px}.brand-mark{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--purple),#0891b2);font-size:21px}.brand span{color:var(--cyan)}.nav-label{color:#687796;font-size:10px;font-weight:800;letter-spacing:1.6px;padding:0 12px;margin-bottom:-15px}.nav{display:grid;gap:6px}.nav a,.nav button{border:1px solid transparent;background:transparent;color:#aeb9d0;padding:12px 13px;border-radius:12px;text-align:left;display:flex;align-items:center;gap:12px;cursor:pointer;font-size:14px;width:100%}.nav a:hover,.nav button:hover,.nav .active{background:linear-gradient(90deg,#7c3aed2b,#0891b21c);border-color:#39456b;color:white}.nav-icon{width:21px;text-align:center;font-size:17px}.sidebar-bottom{margin-top:auto;border:1px solid var(--line);background:linear-gradient(145deg,#151c33,#101629);padding:16px;border-radius:16px}.sidebar-bottom strong{display:block;font-size:13px;margin-bottom:6px}.sidebar-bottom p{font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 12px}.small-link{color:var(--cyan);font-size:12px;font-weight:700}
