@@ -232,9 +232,10 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
     <div class="pricing">
       <div class="price-card"><div class="eyebrow">Free</div><div class="price">₹0</div><p style="color:#9fb0cf">Everything needed to begin learning.</p><ul class="features"><li>Courses & AI lessons</li><li>Practical labs</li><li>Quizzes & final exam</li><li>Certificate eligibility</li><li>Basic avatar items</li><li>Ads</li></ul><a class="btn btn-outline" href="auth.html" style="width:100%">Create Free Account</a></div>
       <div class="price-card premium"><div class="eyebrow">Monthly Premium</div><div class="price">₹249 <small>/ month</small></div><p style="color:#c2bde0">Premium features for as long as your subscription is active.</p><ul class="features"><li>No ads while active</li><li>Up to 5 re-learning accesses/month</li><li>Premium avatar customization</li><li>Premium profile features</li><li>Premium badge</li><li>Everything in Free</li></ul><a class="btn btn-gradient" href="auth.html" style="width:100%">Choose Monthly</a></div>
-      <div class="price-card lifetime"><div class="eyebrow">One-time Course Access</div><div class="price-stack"><span class="old-price">₹599</span><span class="new-price">₹539</span><span class="price-badge">Limited-time offer</span></div><p style="color:#b8d8df">Pay once and enjoy the full course, unlimited lesson replays, and an ad-free learning experience — with no monthly subscription.</p><ul class="features"><li>Full course access with a one-time payment</li><li>Unlimited lesson replays — watch lessons again and again</li><li>Completely ad-free learning</li><li>Course lessons and learning materials</li><li>Practical labs and quizzes</li><li>Final exam eligibility</li><li>Course progress tracking</li><li>No monthly subscription</li></ul><a class="btn btn-gradient" href="auth.html" style="width:100%">Get Full Course</a></div>
+      <div class="price-card lifetime"><div class="eyebrow">One-time Course Access</div><div class="price-stack"><span class="old-price">₹599</span><span class="new-price">₹539</span><span class="price-badge">Limited-time offer</span></div><p style="color:#b8d8df">Pay once and enjoy the full course, unlimited lesson replays, and an ad-free learning experience — with no monthly subscription.</p><ul class="features"><li>Full course access with a one-time payment</li><li>Unlimited lesson replays — watch lessons again and again</li><li>Completely ad-free learning</li><li>Course lessons and learning materials</li><li>Practical labs and quizzes</li><li>Final exam eligibility</li><li>Course progress tracking</li><li>No monthly subscription</li></ul><button class="btn btn-gradient" id="full-course-checkout" type="button" style="width:100%">Get Full Course — ₹539</button>
+        <p id="checkout-status" role="status" aria-live="polite" style="margin-top:12px;color:#9fb0cf;font-size:13px;line-height:1.5"></p></div>
     </div>
-    <p style="max-width:900px;margin:18px auto 0;text-align:center;color:#8798b8;font-size:12px;line-height:1.6">Pricing display only: secure checkout and payment confirmation must be connected before these options can accept payments. Course features and access terms should be finalized before launch.</p>
+    <p style="max-width:900px;margin:18px auto 0;text-align:center;color:#8798b8;font-size:12px;line-height:1.6">Full-course checkout uses Razorpay Test Mode until you switch it to live credentials. Monthly subscription checkout is not connected yet.</p>
   </div>
 </section>
 
@@ -254,6 +255,158 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
     <div>© 2026 CyberShield • Educational Platform</div>
   </div>
 </footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+  "use strict";
+
+  // The publishable/anon key is intended for browser use.
+  // Never place the Supabase service-role key or Razorpay secret here.
+  const SUPABASE_URL = "https://hkiszhyzguhhiughbcrj.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt";
+
+  const button = document.getElementById("full-course-checkout");
+  const status = document.getElementById("checkout-status");
+  if (!button || !window.supabase) return;
+
+  const client = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  function showStatus(message, isError = false) {
+    status.textContent = message;
+    status.style.color = isError ? "#ff9aa9" : "#9fe8d8";
+  }
+
+  function loadRazorpay() {
+    return new Promise((resolve, reject) => {
+      if (window.Razorpay) return resolve();
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = resolve;
+      script.onerror = () => reject(new Error("Razorpay Checkout could not load. Please try again."));
+      document.head.appendChild(script);
+    });
+  }
+
+  async function checkExistingAccess(user) {
+    const { data, error } = await client
+      .from("course_entitlements")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("plan", "full-course")
+      .limit(1);
+
+    if (!error && data && data.length > 0) {
+      button.textContent = "Full Course Already Purchased";
+      showStatus("Your account has full-course access. Sign in on the learning dashboard to continue.");
+      button.disabled = true;
+      button.style.opacity = "0.75";
+    }
+  }
+
+  client.auth.getUser().then(({ data, error }) => {
+    if (!error && data.user) checkExistingAccess(data.user);
+  });
+
+  button.addEventListener("click", async () => {
+    if (button.disabled) return;
+    button.disabled = true;
+    const originalText = "Get Full Course — ₹539";
+    button.textContent = "Preparing secure checkout…";
+    showStatus("");
+
+    try {
+      const { data: userData, error: userError } = await client.auth.getUser();
+      if (userError || !userData.user) {
+        showStatus("Please sign in first. Opening the login page…", true);
+        window.location.href = "auth.html";
+        return;
+      }
+
+      await loadRazorpay();
+
+      const { data: order, error: orderError } = await client.functions.invoke(
+        "create-order",
+        { body: { plan: "full-course" } }
+      );
+
+      if (orderError || !order || !order.order_id || !order.key_id) {
+        throw new Error(
+          order?.error || orderError?.message || "Could not create the payment order. Check the create-order function."
+        );
+      }
+
+      const options = {
+        key: order.key_id,
+        amount: order.amount,
+        currency: order.currency || "INR",
+        name: "CyberShield",
+        description: "Full Course — one-time access",
+        order_id: order.order_id,
+        prefill: {
+          email: userData.user.email || ""
+        },
+        notes: { plan: "full-course" },
+        theme: { color: "#18cde9" },
+        modal: {
+          ondismiss: () => {
+            button.disabled = false;
+            button.textContent = originalText;
+            showStatus("Checkout was closed. You can try again.");
+          }
+        },
+        handler: async (response) => {
+          button.textContent = "Verifying payment…";
+          showStatus("Payment submitted. Verifying securely with Razorpay…");
+
+          const { data: verification, error: verifyError } =
+            await client.functions.invoke("verify-payment", {
+              body: {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
+              }
+            });
+
+          if (verifyError || !verification || verification.verified !== true || verification.activated !== true) {
+            showStatus(
+              verification?.error ||
+              verifyError?.message ||
+              "Payment verification is pending. Do not pay again immediately; contact support with your payment ID.",
+              true
+            );
+            button.disabled = false;
+            button.textContent = originalText;
+            return;
+          }
+
+          showStatus("Payment verified and full-course access activated! You can now open your course.");
+          button.textContent = "Purchase Successful";
+          button.disabled = true;
+        }
+      };
+
+      const checkout = new window.Razorpay(options);
+      checkout.on("payment.failed", (event) => {
+        const description = event?.error?.description || "Payment failed. Please try again.";
+        showStatus(description, true);
+        button.disabled = false;
+        button.textContent = originalText;
+      });
+      checkout.open();
+    } catch (error) {
+      console.error("CyberShield checkout error:", error);
+      showStatus(error.message || "Checkout could not start. Please try again.", true);
+      button.disabled = false;
+      button.textContent = originalText;
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
