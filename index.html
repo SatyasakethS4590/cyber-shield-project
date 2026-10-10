@@ -257,6 +257,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
 </footer>
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (() => {
@@ -264,7 +265,8 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
 
   // The publishable/anon key is intended for browser use.
   // Never place the Supabase service-role key or Razorpay secret here.
-  const SUPABASE_URL = "https://hkiszhyzguhhiughbcrj.supabase.co";
+
+const SUPABASE_URL = "https://hkiszhyzguhhiughbcrj.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt";
 
   const button = document.getElementById("full-course-checkout");
@@ -285,6 +287,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
     return new Promise((resolve, reject) => {
       if (window.Razorpay) return resolve();
       const script = document.createElement("script");
+
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.onload = resolve;
       script.onerror = () => reject(new Error("Razorpay Checkout could not load. Please try again."));
@@ -329,10 +332,12 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
 
       await loadRazorpay();
 
-      const { data: order, error: orderError } = await client.functions.invoke(
-        "create-order",
-        { body: { plan: "full-course" } }
-      );
+     
+      const { data: order, error: orderError } =
+        await client.functions.invoke("create-order", {
+          body: { plan: "full-course" }
+        });
+
 
       if (orderError || !order || !order.order_id || !order.key_id) {
         throw new Error(
