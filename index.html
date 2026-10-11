@@ -155,6 +155,14 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
  h1{font-size:44px}.cards,.pricing{grid-template-columns:1fr}.visual{min-height:320px}
  .stats{gap:16px}.hero p{font-size:16px}
 }
+
+.duration-details{position:relative;display:inline-block}
+.duration-details summary{cursor:pointer;list-style:none;user-select:none}
+.duration-details summary::-webkit-details-marker{display:none}
+.duration-details[open]{flex-basis:100%}
+.duration-explanation{margin-top:12px;padding:16px 18px;border:1px solid rgba(45,212,191,.35);border-radius:14px;background:rgba(5,24,43,.96);color:#dce8ff;max-width:720px;line-height:1.65}
+.duration-explanation p{margin:8px 0;color:#b8c8e3}
+.duration-explanation ul{margin:8px 0;padding-left:20px;color:#dce8ff}
 </style>
 </head>
 <body>
@@ -184,7 +192,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
         <a class="btn btn-outline" href="#course">Explore Course</a>
       </div>
       <div class="stats">
-        <div class="stat"><strong>13h</strong><small>Complete course</small></div>
+        <div class="stat"><strong>4 Months</strong><small>Learning programme</small></div>
         <div class="stat"><strong>6</strong><small>Learning modules</small></div>
         <div class="stat"><strong>100%</strong><small>Safe practice focus</small></div>
       </div>
@@ -218,7 +226,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
         <div class="eyebrow">Featured Course</div>
         <h2>Cybersecurity Fundamentals</h2>
         <p>A complete beginner-friendly path covering cybersecurity basics, networking, Linux, web security, cryptography and security awareness.</p>
-        <div class="tags"><span class="tag">13 Hours</span><span class="tag">6 Modules</span><span class="tag">Labs</span><span class="tag">Quizzes</span><span class="tag">Final Exam</span></div>
+        <div class="tags"><details class="duration-details"><summary class="tag">4 Months — Why?</summary><div class="duration-explanation"><strong>Why four months?</strong><p>The 4-month duration is the suggested full learning programme, not just video runtime. It allows time to understand concepts, complete safe practical labs, practise, take quizzes, and prepare for the final assessment.</p><ul><li><b>Month 1:</b> Cybersecurity foundations and networking</li><li><b>Month 2:</b> Linux and web security</li><li><b>Month 3:</b> Cryptography, security awareness and practical labs</li><li><b>Month 4:</b> Practice, revision, a safe mini-project and final assessment</li></ul><p>Actual pace may vary by learner. The 13 hours of core lessons, where applicable, is only the video/lesson estimate and does not represent the whole programme.</p></div></details><span class="tag">6 Modules</span><span class="tag">Practical Labs</span><span class="tag">Quizzes</span><span class="tag">Final Exam</span></div>
         <a class="btn btn-gradient" href="auth.html">Start Course →</a>
       </div>
       <div class="course-side"><div class="progress-ring">6</div><small>Core modules</small><div style="margin-top:18px;color:#8ea4c7">Basics • Network • Linux<br>Web • Crypto • Awareness</div></div>
