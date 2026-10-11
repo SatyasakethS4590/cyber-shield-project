@@ -80,19 +80,6 @@ h1{font-size:clamp(42px,6vw,72px);line-height:.98;margin:22px 0 20px;letter-spac
 .hero-buttons{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
 .stats{display:flex;gap:25px;margin-top:30px;flex-wrap:wrap}
 .stat strong{font-size:24px}.stat small{display:block;color:var(--muted);margin-top:3px}
-.stat.duration-trigger{appearance:none;background:transparent;border:0;color:inherit;text-align:left;padding:0;font:inherit;cursor:pointer;border-radius:8px}
-.stat.duration-trigger:focus-visible{outline:2px solid var(--cyan);outline-offset:6px}
-.duration-hint{display:block;color:var(--cyan);font-size:11px;margin-top:5px}
-.duration-details{margin-top:22px;padding:24px;border:1px solid rgba(24,229,255,.28);border-radius:20px;background:linear-gradient(135deg,rgba(8,26,53,.96),rgba(18,13,49,.96))}
-.duration-details[hidden]{display:none}
-.duration-details h3{margin:0 0 8px;font-size:22px}
-.duration-details p{color:var(--muted);line-height:1.65}
-.duration-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}
-.duration-month{padding:16px;border:1px solid var(--line);border-radius:14px;background:rgba(5,14,31,.55)}
-.duration-month strong{display:block;color:#b9eaff;margin-bottom:7px}
-.duration-month p{font-size:14px;margin:0}
-.duration-note{font-size:13px;color:#9fe8d8!important;margin-top:16px}
-@media(max-width:560px){.duration-grid{grid-template-columns:1fr}}
 .visual{
   min-height:390px;border:1px solid var(--line);border-radius:28px;position:relative;overflow:hidden;
   background:
@@ -197,7 +184,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
         <a class="btn btn-outline" href="#course">Explore Course</a>
       </div>
       <div class="stats">
-        <button class="stat duration-trigger" id="duration-trigger" type="button" aria-expanded="false" aria-controls="duration-details"><strong>4 Months</strong><small>Guided learning program</small><span class="duration-hint">Click to see why ↗</span></button>
+        <div class="stat"><strong>13h</strong><small>Complete course</small></div>
         <div class="stat"><strong>6</strong><small>Learning modules</small></div>
         <div class="stat"><strong>100%</strong><small>Safe practice focus</small></div>
       </div>
@@ -231,21 +218,10 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
         <div class="eyebrow">Featured Course</div>
         <h2>Cybersecurity Fundamentals</h2>
         <p>A complete beginner-friendly path covering cybersecurity basics, networking, Linux, web security, cryptography and security awareness.</p>
-        <div class="tags"><span class="tag">4-Month Program</span><span class="tag">13 Hours of Core Lessons</span><span class="tag">6 Modules</span><span class="tag">Practical Labs</span><span class="tag">Quizzes</span><span class="tag">Final Exam</span></div>
+        <div class="tags"><span class="tag">13 Hours</span><span class="tag">6 Modules</span><span class="tag">Labs</span><span class="tag">Quizzes</span><span class="tag">Final Exam</span></div>
         <a class="btn btn-gradient" href="auth.html">Start Course →</a>
       </div>
       <div class="course-side"><div class="progress-ring">6</div><small>Core modules</small><div style="margin-top:18px;color:#8ea4c7">Basics • Network • Linux<br>Web • Crypto • Awareness</div></div>
-    </div>
-    <div class="duration-details" id="duration-details" hidden>
-      <h3>Why does CyberShield take 4 months?</h3>
-      <p>The 13 hours refers to the core lesson content—not the whole learning journey. The four-month plan gives beginners time to practise each topic, complete labs and quizzes, review mistakes, and prepare for the final assessment without rushing.</p>
-      <div class="duration-grid">
-        <div class="duration-month"><strong>Month 1 · Foundations</strong><p>Cybersecurity basics, common threats, safe online habits, and networking fundamentals. Complete short knowledge checks as you learn.</p></div>
-        <div class="duration-month"><strong>Month 2 · Systems & Web</strong><p>Linux fundamentals and web-security concepts, supported by guided practice in authorized training environments.</p></div>
-        <div class="duration-month"><strong>Month 3 · Security Skills</strong><p>Cryptography basics, security awareness, practical lab tasks, quizzes, and revisiting topics that need more practice.</p></div>
-        <div class="duration-month"><strong>Month 4 · Practice & Assessment</strong><p>Consolidate all six modules, complete remaining labs, review quiz feedback, work through a safe mini-project, and prepare for the final exam.</p></div>
-      </div>
-      <p class="duration-note">Suggested pace: around 3–4 hours per week across lessons, hands-on practice, quizzes and review. Your actual pace may vary. This is the planned learning schedule; completion depends on the learner and the activities made available on the platform.</p>
     </div>
   </div>
 </section>
@@ -254,8 +230,8 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
   <div class="container">
     <div class="section-title"><h2>Choose How You Want to Learn</h2><p>Start free, subscribe monthly, or choose one-time course access.</p></div>
     <div class="pricing">
-      <div class="price-card"><div class="eyebrow">Free</div><div class="price">₹0</div><p style="color:#9fb0cf">Everything needed to begin learning.</p><ul class="features"><li>Courses & AI lessons</li><li>Practical labs</li><li>Quizzes & final exam</li><li>Certificate eligibility</li><li>Basic avatar items</li><li>Ads</li></ul><a class="btn btn-outline" href="auth.html" style="width:100%">Create Free Account</a></div>
-      <div class="price-card premium"><div class="eyebrow">Monthly Premium</div><div class="price">₹249 <small>/ month</small></div><p style="color:#c2bde0">Premium features for as long as your subscription is active.</p><ul class="features"><li>No ads while active</li><li>Up to 5 re-learning accesses/month</li><li>Premium avatar customization</li><li>Premium profile features</li><li>Premium badge</li><li>Everything in Free</li></ul><a class="btn btn-gradient" href="auth.html" style="width:100%">Choose Monthly</a></div>
+      <div class="price-card"><div class="eyebrow">Free</div><div class="price">₹0</div><p style="color:#9fb0cf">Everything needed to begin learning.</p><ul class="features"><li>Courses & AI lessons</li><li>Practical labs</li><li>Quizzes & final exam</li><li>Certificate eligibility</li><li>Basic avatar items</li><li>Ads</li></ul><a class="btn btn-outline" href="auth.html?next=plans" style="width:100%">Create Free Account</a></div>
+      <div class="price-card premium"><div class="eyebrow">Monthly Premium</div><div class="price">₹249 <small>/ month</small></div><p style="color:#c2bde0">Premium features for as long as your subscription is active.</p><ul class="features"><li>No ads while active</li><li>Up to 5 re-learning accesses/month</li><li>Premium avatar customization</li><li>Premium profile features</li><li>Premium badge</li><li>Everything in Free</li></ul><a class="btn btn-gradient" href="auth.html?next=plans" style="width:100%">Choose Monthly</a></div>
       <div class="price-card lifetime"><div class="eyebrow">One-time Course Access</div><div class="price-stack"><span class="old-price">₹599</span><span class="new-price">₹539</span><span class="price-badge">Limited-time offer</span></div><p style="color:#b8d8df">Pay once and enjoy the full course, unlimited lesson replays, and an ad-free learning experience — with no monthly subscription.</p><ul class="features"><li>Full course access with a one-time payment</li><li>Unlimited lesson replays — watch lessons again and again</li><li>Completely ad-free learning</li><li>Course lessons and learning materials</li><li>Practical labs and quizzes</li><li>Final exam eligibility</li><li>Course progress tracking</li><li>No monthly subscription</li></ul><button class="btn btn-gradient" id="full-course-checkout" type="button" style="width:100%">Get Full Course — ₹539</button>
         <p id="checkout-status" role="status" aria-live="polite" style="margin-top:12px;color:#9fb0cf;font-size:13px;line-height:1.5"></p></div>
     </div>
@@ -280,21 +256,6 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
   </div>
 </footer>
 
-
-<script>
-(() => {
-  const trigger = document.getElementById("duration-trigger");
-  const details = document.getElementById("duration-details");
-  if (!trigger || !details) return;
-  trigger.addEventListener("click", () => {
-    const expanded = trigger.getAttribute("aria-expanded") === "true";
-    trigger.setAttribute("aria-expanded", String(!expanded));
-    details.hidden = expanded;
-    trigger.querySelector(".duration-hint").textContent = expanded ? "Click to see why ↗" : "Click to hide details ↘";
-    if (!expanded) details.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  });
-})();
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -362,7 +323,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
       const { data: userData, error: userError } = await client.auth.getUser();
       if (userError || !userData.user) {
         showStatus("Please sign in first. Opening the login page…", true);
-        window.location.href = "auth.html";
+        window.location.href = "auth.html?next=checkout&plan=full-course";
         return;
       }
 
@@ -444,6 +405,20 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
       button.textContent = originalText;
     }
   });
+
+  // Continue checkout after a user returns from the login page.
+  const pageParams = new URLSearchParams(window.location.search);
+  if (pageParams.get("checkout") === "full-course") {
+    // Remove the one-time trigger from the address bar to prevent accidental repeat on refresh.
+    window.history.replaceState({}, document.title, window.location.pathname + "#premium");
+    client.auth.getSession().then(({ data, error }) => {
+      if (error || !data.session) {
+        window.location.replace("auth.html?next=checkout&plan=full-course");
+        return;
+      }
+      button.click();
+    });
+  }
 })();
 </script>
 
