@@ -6,63 +6,94 @@
 <title>CyberShield — Cybersecurity Learning Platform</title>
 <meta name="description" content="CyberShield — learn cybersecurity through AI lessons, practical labs, quizzes and certificates.">
 <style>
-  
+
+/* CyberShield — course duration popup styling */
 .duration-trigger {
-  background: linear-gradient(135deg, #22d3ee, #a78bfa);
+  background: linear-gradient(135deg, #22d3ee, #8b5cf6);
   color: #030817;
-  border: 0;
-  border-radius: 8px;
-  padding: 7px 10px;
+  border: 1px solid rgba(103, 232, 249, 0.6);
+  border-radius: 10px;
+  padding: 9px 13px;
   font: inherit;
   font-weight: 800;
   cursor: pointer;
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .duration-trigger:hover {
-  filter: brightness(1.12);
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.3);
 }
 
 .duration-trigger:focus-visible {
-  outline: 3px solid #fff;
-  outline-offset: 3px;
+  outline: 2px solid #67e8f9;
+  outline-offset: 4px;
 }
 
 .duration-panel {
   margin: 24px 0;
-  padding: 22px;
-  border: 1px solid rgba(45, 212, 191, 0.4);
-  border-radius: 16px;
-  background: #07152b;
+  padding: 24px;
   color: #dce8ff;
+  background: linear-gradient(
+    145deg,
+    rgba(9, 20, 43, 0.98),
+    rgba(17, 24, 55, 0.98)
+  );
+  border: 1px solid rgba(45, 212, 191, 0.4);
+  border-radius: 18px;
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
   line-height: 1.7;
 }
 
 .duration-panel[hidden] {
-  display: none;
+  display: none !important;
 }
 
 .duration-panel h3 {
   color: #67e8f9;
-  margin-top: 0;
+  margin: 0 0 14px;
+  font-size: 1.35rem;
+}
+
+.duration-panel > p {
+  color: #b8c8e3;
+  margin: 12px 0;
 }
 
 .duration-month {
   margin: 14px 0;
-  padding: 12px 16px;
+  padding: 15px 17px;
+  background: rgba(30, 41, 75, 0.55);
+  border: 1px solid rgba(139, 92, 246, 0.22);
   border-left: 3px solid #22d3ee;
-  background: rgba(255, 255, 255, 0.035);
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 .duration-month h4 {
   margin: 0 0 6px;
   color: #c4b5fd;
+  font-size: 1rem;
 }
 
-.duration-month p,
-.duration-panel > p {
-  margin-bottom: 0;
+.duration-month p {
+  margin: 0;
+  color: #dce8ff;
 }
+
+.duration-panel strong {
+  color: #5eead4;
+}
+
+@media (max-width: 600px) {
+  .duration-panel {
+    padding: 17px;
+    border-radius: 14px;
+  }
+}
+
 
 :root{
   --bg:#030817;
