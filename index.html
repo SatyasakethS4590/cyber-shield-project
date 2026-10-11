@@ -6,6 +6,64 @@
 <title>CyberShield — Cybersecurity Learning Platform</title>
 <meta name="description" content="CyberShield — learn cybersecurity through AI lessons, practical labs, quizzes and certificates.">
 <style>
+  
+.duration-trigger {
+  background: linear-gradient(135deg, #22d3ee, #a78bfa);
+  color: #030817;
+  border: 0;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.duration-trigger:hover {
+  filter: brightness(1.12);
+}
+
+.duration-trigger:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+.duration-panel {
+  margin: 24px 0;
+  padding: 22px;
+  border: 1px solid rgba(45, 212, 191, 0.4);
+  border-radius: 16px;
+  background: #07152b;
+  color: #dce8ff;
+  line-height: 1.7;
+}
+
+.duration-panel[hidden] {
+  display: none;
+}
+
+.duration-panel h3 {
+  color: #67e8f9;
+  margin-top: 0;
+}
+
+.duration-month {
+  margin: 14px 0;
+  padding: 12px 16px;
+  border-left: 3px solid #22d3ee;
+  background: rgba(255, 255, 255, 0.035);
+  border-radius: 6px;
+}
+
+.duration-month h4 {
+  margin: 0 0 6px;
+  color: #c4b5fd;
+}
+
+.duration-month p,
+.duration-panel > p {
+  margin-bottom: 0;
+}
+
 :root{
   --bg:#030817;
   --panel:#07152d;
