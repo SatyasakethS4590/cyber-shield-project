@@ -6,52 +6,6 @@
 <meta name="theme-color" content="#080d1b">
 <title>CyberShield — Student Dashboard</title>
 <style>
- 
-/* CyberShield plan cards */
-.plan-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 16px;
-}
-
-.plan-card {
-  background: linear-gradient(145deg, #121a2d, #0d1425);
-  border: 1px solid #283451;
-  border-radius: 16px;
-  padding: 20px;
-  min-width: 0;
-}
-
-.plan-card h3 {
-  margin: 0 0 10px;
-  font-size: 16px;
-}
-
-.plan-price {
-  font-size: 28px;
-  font-weight: 850;
-  margin: 12px 0;
-}
-
-.plan-card p,
-.plan-card li {
-  color: #9ba8c4;
-  font-size: 12px;
-  line-height: 1.7;
-}
-
-.plan-card ul {
-  padding-left: 18px;
-  margin-bottom: 18px;
-}
-
-@media (max-width: 900px) {
-  .plan-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 :root{--bg:#080d1b;--panel:#11182b;--line:#283451;--text:#f4f7ff;--muted:#9ba8c4;--cyan:#22d3ee;--purple:#8b5cf6}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0%,#17214a 0%,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}a{color:inherit;text-decoration:none}
 .layout{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}.sidebar{background:#0b1121;border-right:1px solid var(--line);padding:25px 17px;display:flex;flex-direction:column;gap:26px}.brand{display:flex;align-items:center;gap:11px;font-size:21px;font-weight:850;padding:0 9px}.brand-mark{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--purple),#0891b2);font-size:21px}.brand span{color:var(--cyan)}.nav-label{color:#687796;font-size:10px;font-weight:800;letter-spacing:1.6px;padding:0 12px;margin-bottom:-15px}.nav{display:grid;gap:6px}.nav a,.nav button{border:1px solid transparent;background:transparent;color:#aeb9d0;padding:12px 13px;border-radius:12px;text-align:left;display:flex;align-items:center;gap:12px;cursor:pointer;font-size:14px;width:100%}.nav a:hover,.nav button:hover,.nav .active{background:linear-gradient(90deg,#7c3aed2b,#0891b21c);border-color:#39456b;color:white}.nav-icon{width:21px;text-align:center;font-size:17px}.sidebar-bottom{margin-top:auto;border:1px solid var(--line);background:linear-gradient(145deg,#151c33,#101629);padding:16px;border-radius:16px}.sidebar-bottom strong{display:block;font-size:13px;margin-bottom:6px}.sidebar-bottom p{font-size:12px;line-height:1.5;color:var(--muted);margin:0 0 12px}.small-link{color:var(--cyan);font-size:12px;font-weight:700}
@@ -62,6 +16,66 @@ main{min-width:0;padding:26px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 @media(max-width:1100px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:minmax(0,1fr)}}@media(max-width:760px){.layout{grid-template-columns:1fr}.sidebar{display:none;position:fixed;z-index:20;inset:0 auto 0 0;width:270px;overflow:auto;box-shadow:15px 0 45px #0009}.sidebar.open{display:flex}.mobile-menu{display:inline-flex;border:1px solid var(--line);background:#11182b;color:#fff;padding:10px 12px;border-radius:11px;cursor:pointer}.topbar{align-items:flex-start;flex-wrap:wrap}.top-actions{flex:1;justify-content:flex-end}.search{width:min(240px,52vw)}.profile{max-width:48px}.profile-text{display:none}main{padding:18px 15px 30px}.progress-overview{align-items:flex-start;flex-direction:column}.ring{width:112px;height:112px;flex-basis:112px}.welcome{padding:24px}.section-head{margin-top:23px}}@media(max-width:420px){.stats{gap:9px}.stat{padding:13px}.stat-value{font-size:24px}.stat-top{font-size:11px}.search{width:100%;order:3;flex-basis:100%}.top-actions{flex-wrap:wrap}.skill-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.achievement-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.panel{padding:16px}}
 
 .attendance-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}.attendance-stat{padding:13px;border:1px solid #293550;border-radius:12px;background:#0d1425}.attendance-stat small{display:block;color:var(--muted);font-size:11px}.attendance-stat strong{display:block;font-size:22px;margin-top:6px}.attendance-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}.attendance-day{border:1px solid #293550;background:#0d1425;border-radius:9px;padding:8px 2px;text-align:center;min-width:0}.attendance-day small{display:block;color:var(--muted);font-size:9px}.attendance-day strong{display:block;font-size:12px;margin-top:4px}.attendance-day.present{border-color:#22c55e80;background:#14532d55}.attendance-day.today{outline:1px solid var(--cyan)}.attendance-day.missed{opacity:.65}.attendance-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:12px}@media(max-width:420px){.attendance-summary{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.attendance-stat{padding:9px}.attendance-stat strong{font-size:18px}}
+
+/* CyberShield plans — responsive dark theme */
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #121a2d, #0d1425);
+}
+.plan-card.featured {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 24px #8b5cf61c;
+}
+.plan-card h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+.plan-price {
+  margin: 12px 0;
+  font-size: 28px;
+  font-weight: 850;
+}
+.plan-price small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.plan-card p,
+.plan-card li {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.plan-card ul {
+  flex: 1;
+  margin: 0 0 18px;
+  padding-left: 18px;
+}
+.plan-card .btn {
+  width: 100%;
+  margin-top: auto;
+}
+.plan-note {
+  margin: 15px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+@media (max-width: 900px) {
+  .plan-grid { grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -105,6 +119,62 @@ main{min-width:0;padding:26px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 <section class="content-grid" id="attendanceSection"><article class="panel"><h3>Daily attendance</h3><p class="panel-sub">Your login is recorded once per day using India Standard Time (IST).</p><div class="attendance-summary"><div class="attendance-stat"><small>Days attended</small><strong id="attendanceDays">—</strong></div><div class="attendance-stat"><small>Current streak</small><strong id="attendanceStreak">—</strong></div><div class="attendance-stat"><small>Course day</small><strong id="courseDay">— / 120</strong></div></div><div class="mini-row"><span>120-day attendance</span><b id="attendancePercent">0%</b></div><div class="bar"><span id="attendanceBar"></span></div><div class="section-head" style="margin:20px 0 12px"><div><h3>Recent 14 days</h3><p class="panel-sub" style="margin-bottom:0">Green = attendance recorded</p></div></div><div id="attendanceCalendar" class="attendance-calendar" aria-live="polite"></div><p id="attendanceMessage" class="attendance-note">Loading attendance…</p></article><article class="panel"><h3>How attendance works</h3><p class="panel-sub">Attendance and lesson completion are tracked separately.</p><div class="activity"><div class="activity-icon">📅</div><div><strong>One record per day</strong><p>Signing in multiple times on the same IST date counts as one attendance day.</p></div></div><div class="activity"><div class="activity-icon">📘</div><div><strong>Complete the daily lesson</strong><p>Attendance alone does not mark lessons, labs, quizzes, or exams as completed.</p></div></div><div class="activity"><div class="activity-icon">🛡️</div><div><strong>Keep learning responsibly</strong><p>Use only authorized labs and systems. Missed days remain missed; attendance is not backdated.</p></div></div></article></section>
 <section class="content-grid"><article class="panel"><h3>Recent activity</h3><p class="panel-sub">Your learning milestones appear here.</p><div class="activity"><div class="activity-icon">👋</div><div><strong>Welcome to CyberShield</strong><p>Account connected. Start your first lesson to begin building progress.</p></div></div><div class="activity"><div class="activity-icon">📘</div><div><strong>Cybersecurity Fundamentals</strong><p>Your 13-hour learning path is ready when you are.</p></div></div></article>
 <article class="panel"><h3>Achievements</h3><p class="panel-sub">Milestones unlock as you learn.</p><div class="achievement-grid"><div class="achievement"><div class="medal">🌱</div><strong>First Steps</strong><small>Complete a lesson</small></div><div class="achievement"><div class="medal">🧪</div><strong>Lab Starter</strong><small>Complete a lab</small></div><div class="achievement"><div class="medal">🏆</div><strong>Exam Ready</strong><small>Pass the final exam</small></div></div></article></section>
+
+<section class="content-grid" id="plans" aria-labelledby="plansTitle">
+  <article class="panel" style="grid-column:1 / -1">
+    <h3 id="plansTitle">Choose Your CyberShield Plan</h3>
+    <p class="panel-sub">Compare the available options. Payments are not activated by these display cards alone.</p>
+
+    <div class="plan-grid">
+      <article class="plan-card">
+        <h3>Free Learner</h3>
+        <div class="plan-price">₹0</div>
+        <p>Start learning cybersecurity at no cost.</p>
+        <ul>
+          <li>Course learning materials</li>
+          <li>Practice quizzes and labs</li>
+          <li>Progress tracking</li>
+          <li>Basic profile customization</li>
+          <li>Ads may be shown</li>
+        </ul>
+        <a class="btn secondary" href="courses.html">Start learning</a>
+      </article>
+
+      <article class="plan-card featured">
+        <h3>Monthly Premium</h3>
+        <div class="plan-price">₹249 <small>/ month</small></div>
+        <p>Premium features while your subscription is active.</p>
+        <ul>
+          <li>Ad-free learning while active</li>
+          <li>Premium profile features</li>
+          <li>Premium avatar customization</li>
+          <li>Up to 5 re-learning accesses per month</li>
+          <li>Includes Free plan features</li>
+        </ul>
+        <a class="btn" href="index.html#premium">View Premium details</a>
+      </article>
+
+      <article class="plan-card">
+        <h3>Full Course</h3>
+        <div class="plan-price">₹539 <small>one-time</small></div>
+        <p>One-time access to the Cybersecurity Fundamentals course.</p>
+        <ul>
+          <li>Course lessons and learning materials</li>
+          <li>Practical labs and quizzes</li>
+          <li>Final exam eligibility</li>
+          <li>Course progress tracking</li>
+          <li>No monthly subscription</li>
+        </ul>
+        <a class="btn secondary" href="index.html#premium">View full-course details</a>
+      </article>
+    </div>
+
+    <p class="plan-note">
+      Important: these cards display plan information only. Do not make a payment unless a secure checkout is connected and the payment/access terms are clearly confirmed.
+    </p>
+  </article>
+</section>
+
 <footer class="footer">CyberShield · Learn cybersecurity responsibly. Use practical skills only where you have permission.</footer>
 </main></div>
 <script type="module">
@@ -196,60 +266,6 @@ $("logoutBtn").addEventListener("click",async()=>{const {error}=await supabase.a
 $("menuBtn").addEventListener("click",()=>$("sidebar").classList.toggle("open"));
 $("moduleSearch").addEventListener("input",event=>{const q=event.target.value.trim().toLowerCase(),modules=[...document.querySelectorAll(".module")];let visible=0;for(const m of modules){const match=(m.dataset.search||m.textContent).toLowerCase().includes(q);m.style.display=match?"flex":"none";if(match)visible++}setText("moduleCount",visible+(visible===1?" module":" modules"));$("noSearchResults").style.display=visible?"none":"block"});
 init();
- 
-<section class="content-grid" id="plans">
-  <article class="panel" style="grid-column: 1 / -1">
-    <h3>Choose Your CyberShield Plan</h3>
-    <p class="panel-sub">
-      Explore the available learning options for your account.
-    </p>
-
-    <div class="plan-grid">
-      <article class="plan-card">
-        <h3>Free Learner</h3>
-        <div class="plan-price">₹0</div>
-        <p>Start learning cybersecurity at no cost.</p>
-        <ul>
-          <li>Course learning materials</li>
-          <li>Practice quizzes and labs</li>
-          <li>Progress tracking</li>
-        </ul>
-        <a class="btn secondary" href="index.html#premium">
-          View Plan
-        </a>
-      </article>
-
-      <article class="plan-card">
-        <h3>Monthly Premium</h3>
-        <div class="plan-price">₹249 <small>/ month</small></div>
-        <p>Premium features while your subscription is active.</p>
-        <ul>
-          <li>Ad-free learning</li>
-          <li>Premium profile features</li>
-          <li>Premium avatar customization</li>
-        </ul>
-        <a class="btn" href="index.html#premium">
-          View Plan
-        </a>
-      </article>
-
-      <article class="plan-card">
-        <h3>Full Course</h3>
-        <div class="plan-price">₹539</div>
-        <p>One-time course access.</p>
-        <ul>
-          <li>Course lessons and materials</li>
-          <li>Practical labs and quizzes</li>
-          <li>Course progress tracking</li>
-        </ul>
-        <a class="btn" href="index.html#premium">
-          View Plan
-        </a>
-      </article>
-    </div>
-  </article>
-</section>
-
 </script>
 </body>
 </html>
