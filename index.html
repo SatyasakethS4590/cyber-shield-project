@@ -192,7 +192,18 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
         <a class="btn btn-outline" href="#course">Explore Course</a>
       </div>
       <div class="stats">
-        <div class="stat"><strong>4 Months</strong><small>Learning programme</small></div>
+       
+<div class="stat">
+  <strong>
+    <button type="button" class="duration-trigger"
+      onclick="document.getElementById('course-duration-details').hidden = !document.getElementById('course-duration-details').hidden"
+      aria-controls="course-duration-details">
+      4 Months — Why?
+    </button>
+  </strong>
+  <small>Course completion plan</small>
+</div>
+
         <div class="stat"><strong>6</strong><small>Learning modules</small></div>
         <div class="stat"><strong>100%</strong><small>Safe practice focus</small></div>
       </div>
