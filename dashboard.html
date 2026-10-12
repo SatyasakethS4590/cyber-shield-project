@@ -123,7 +123,7 @@ main{min-width:0;padding:26px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 <section class="content-grid" id="plans" aria-labelledby="plansTitle">
   <article class="panel" style="grid-column:1 / -1">
     <h3 id="plansTitle">Choose Your CyberShield Plan</h3>
-    <p class="panel-sub">Compare the available options. Payments are not activated by these display cards alone.</p>
+    <p class="panel-sub">Choose a plan to open its secure checkout page.</p>
 
     <div class="plan-grid">
       <article class="plan-card">
@@ -151,7 +151,7 @@ main{min-width:0;padding:26px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
           <li>Up to 5 re-learning accesses per month</li>
           <li>Includes Free plan features</li>
         </ul>
-        <a class="btn" href="index.html#premium">View Premium details</a>
+        <a class="btn" href="checkout.html?plan=monthly-premium">Continue to payment · ₹249/month</a>
       </article>
 
       <article class="plan-card">
@@ -165,12 +165,12 @@ main{min-width:0;padding:26px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
           <li>Course progress tracking</li>
           <li>No monthly subscription</li>
         </ul>
-        <a class="btn secondary" href="index.html#premium">View full-course details</a>
+        <a class="btn secondary" href="checkout.html?plan=full-course">Continue to payment · ₹539</a>
       </article>
     </div>
 
     <p class="plan-note">
-      Important: these cards display plan information only. Do not make a payment unless a secure checkout is connected and the payment/access terms are clearly confirmed.
+      Secure checkout opens on the next page. Payments will only complete if the matching Razorpay/Supabase server functions are configured and verify the transaction.
     </p>
   </article>
 </section>
