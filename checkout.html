@@ -16,7 +16,7 @@
   const SUPABASE_URL = 'https://hkiszhyzguhhiughbcrj.supabase.co';
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt';
   const plans = {
-    'monthly-premium': {name:'Monthly Premium', price:'₹249', billing:'Billed monthly · subscription must be enabled by the payment backend', description:'Premium access for the active subscription period.', features:['Ad-free learning while active','Premium avatar and profile features','Up to 5 re-learning accesses per month','All Free plan features']},
+    'monthly-premium': {name:'Monthly Premium', price:'₹249', billing:'₹249 for 30 days of access · renewal is manual', description:'Premium access for the active subscription period.', features:['Ad-free learning while active','Premium avatar and profile features','Up to 5 re-learning accesses per month','All Free plan features']},
     'full-course': {name:'Full Course', price:'₹539', billing:'One-time payment · no monthly subscription', description:'One-time access to Cybersecurity Fundamentals.', features:['Course lessons and learning materials','Practical labs and quizzes','Final exam eligibility','Course progress tracking','No monthly subscription']}
   };
   const params = new URLSearchParams(location.search);
@@ -43,7 +43,14 @@
       if(orderError||!order||!order.order_id||!order.key_id) throw new Error(order?.error||orderError?.message||'Secure order creation failed. Check the Supabase create-order function and its server-side Razorpay credentials.');
       const options={key:order.key_id,amount:order.amount,currency:order.currency||'INR',name:'CyberShield',description:plan.name+(planId==='monthly-premium'?' — monthly premium':' — one-time course access'),order_id:order.order_id,prefill:{email:userData.user.email||''},notes:{plan:planId},theme:{color:'#22d3ee'},modal:{ondismiss:()=>{button.disabled=false;button.textContent='Continue to secure payment';setStatus('Checkout was closed. You can try again.');}},handler:async(response)=>{
         button.textContent='Verifying payment…';setStatus('Payment submitted. Verifying securely…');
-        const {data:verification,error:verifyError}=await client.functions.invoke('verify-payment',{body:{plan:planId,razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature}});
+        let verification, verifyError;
+        try {
+          const result = await client.functions.invoke('verify-payment',{body:{plan:planId,order_id:response.razorpay_order_id,payment_id:response.razorpay_payment_id,signature:response.razorpay_signature}});
+          verification = result.data;
+          verifyError = result.error;
+        } catch (err) {
+          verifyError = err;
+        }
         if(verifyError||!verification||verification.verified!==true||verification.activated!==true){setStatus(verification?.error||verifyError?.message||'Verification/access activation is not confirmed. Do not pay again immediately; contact support with the payment ID.',true);button.disabled=false;button.textContent='Try checkout again';return;}
         setStatus('Payment verified and plan activated. You can return to your dashboard.');button.textContent='Payment verified';
       }};
