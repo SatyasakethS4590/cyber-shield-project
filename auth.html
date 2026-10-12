@@ -68,13 +68,18 @@ const submitBtn=document.getElementById("submitBtn");
 const message=document.getElementById("message");
 let mode="login";
 const authParams = new URLSearchParams(window.location.search);
-const wantsFullCourseCheckout = authParams.get("next") === "checkout" && authParams.get("plan") === "full-course";
+const requestedPlan = authParams.get("plan");
+const checkoutPlans = ["monthly-premium", "full-course"];
+const wantsCheckout = authParams.get("next") === "checkout" && checkoutPlans.includes(requestedPlan);
+const wantsFullCourseCheckout = wantsCheckout && requestedPlan === "full-course";
+const wantsMonthlyCheckout = wantsCheckout && requestedPlan === "monthly-premium";
 const wantsPlansReturn = authParams.get("next") === "plans";
 function checkoutReturnUrl(){
- return new URL("index.html?checkout=full-course#premium", window.location.href).toString();
+ const plan = wantsCheckout ? requestedPlan : "full-course";
+ return new URL("checkout.html?plan=" + encodeURIComponent(plan), window.location.href).toString();
 }
 function successfulLoginUrl(){
- return wantsFullCourseCheckout ? checkoutReturnUrl() : (wantsPlansReturn ? "index.html#premium" : "dashboard.html");
+ return wantsCheckout ? checkoutReturnUrl() : (wantsPlansReturn ? "index.html#premium" : "dashboard.html");
 }
 
 function showMessage(text,type){message.textContent=text;message.className="message "+type}
@@ -108,12 +113,12 @@ form.addEventListener("submit",async(e)=>{
        email,password,
        options:{
          data:{full_name:name},
-         emailRedirectTo: wantsFullCourseCheckout ? checkoutReturnUrl() : (wantsPlansReturn ? new URL("index.html#premium", window.location.href).toString() : new URL("index.html", window.location.href).toString())
+         emailRedirectTo: wantsCheckout ? checkoutReturnUrl() : (wantsPlansReturn ? new URL("index.html#premium", window.location.href).toString() : new URL("index.html", window.location.href).toString())
        }
      });
      if(error)throw error;
      if(data.session){
-       showMessage(wantsFullCourseCheckout ? "Account created. Opening secure checkout..." : (wantsPlansReturn ? "Account created. Returning to plans..." : "Account created successfully. Opening dashboard..."),"success");
+       showMessage(wantsCheckout ? "Account created. Opening secure checkout..." : (wantsPlansReturn ? "Account created. Returning to plans..." : "Account created successfully. Opening dashboard..."),"success");
        setTimeout(()=>location.href=successfulLoginUrl(),700);
      }else{
        showMessage("Account created. Check your email to confirm your account, then log in.","success");
@@ -121,7 +126,7 @@ form.addEventListener("submit",async(e)=>{
    }else{
      const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
      if(error)throw error;
-     showMessage(wantsFullCourseCheckout ? "Login successful. Returning to secure checkout..." : (wantsPlansReturn ? "Login successful. Returning to plans..." : "Login successful. Opening dashboard..."),"success");
+     showMessage(wantsCheckout ? "Login successful. Returning to secure checkout..." : (wantsPlansReturn ? "Login successful. Returning to plans..." : "Login successful. Opening dashboard..."),"success");
      setTimeout(()=>location.href=successfulLoginUrl(),500);
    }
  }catch(error){
