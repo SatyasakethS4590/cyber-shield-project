@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#080d1b">
+<title>CyberShield — Secure Checkout</title>
+<style>
+:root{color-scheme:dark;--bg:#080d1b;--panel:#11182b;--line:#283451;--text:#f4f7ff;--muted:#9ba8c4;--cyan:#22d3ee;--purple:#8b5cf6}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(ellipse at 80% 0%,#17214a 0%,transparent 38%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}.checkout{width:min(100%,570px);border:1px solid var(--line);border-radius:24px;padding:clamp(22px,5vw,38px);background:linear-gradient(145deg,#121a2d,#0f1627);box-shadow:0 25px 80px #0005}.brand{font-size:20px;font-weight:850;margin-bottom:28px}.brand span{color:var(--cyan)}.eyebrow{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:#8eeafa;font-weight:800}h1{font-size:clamp(27px,5vw,36px);margin:10px 0}.sub{color:var(--muted);line-height:1.6;font-size:14px}.summary{margin:24px 0;padding:20px;border:1px solid #354263;border-radius:16px;background:#0d1425}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.plan-name{font-weight:800}.price{font-size:29px;font-weight:900;white-space:nowrap}.features{padding-left:20px;color:#c5cee2;line-height:1.9;font-size:13px}.btn{display:flex;justify-content:center;width:100%;padding:14px 18px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--purple),#0891b2);color:white;font-size:14px;font-weight:850;cursor:pointer}.btn:disabled{opacity:.65;cursor:wait}.back{display:block;text-align:center;color:var(--cyan);text-decoration:none;margin-top:16px;font-size:13px}.status{min-height:24px;margin-top:14px;color:#9fe8d8;font-size:13px;line-height:1.5;overflow-wrap:anywhere}.fine{font-size:11px;color:#7f8daa;line-height:1.55;margin-top:16px}.error{color:#ff9aa9}.hidden{display:none!important}
+</style></head>
+<body><main class="checkout"><div class="brand">🛡️ Cyber<span>Shield</span></div><div class="eyebrow">Secure checkout</div><h1>Complete your plan</h1><p class="sub">Review your selected CyberShield plan, then continue to the payment provider.</p>
+<section class="summary"><div class="row"><div><div class="plan-name" id="planName">Loading plan…</div><p class="sub" id="billingText"></p></div><div class="price" id="price">—</div></div><ul class="features" id="features"></ul></section>
+<button class="btn" id="payButton" type="button">Continue to secure payment</button><div id="status" class="status" role="status" aria-live="polite"></div>
+<a class="back" href="dashboard.html#plans">← Back to plans</a><p class="fine">Payments are verified by the server. Never share your OTP, card PIN, UPI PIN, or banking password with anyone. The monthly plan needs a correctly configured subscription/payment backend; this page will show an error rather than pretending a payment succeeded.</p></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+(() => {
+  'use strict';
+  const SUPABASE_URL = 'https://hkiszhyzguhhiughbcrj.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt';
+  const plans = {
+    'monthly-premium': {name:'Monthly Premium', price:'₹249', billing:'Billed monthly · subscription must be enabled by the payment backend', description:'Premium access for the active subscription period.', features:['Ad-free learning while active','Premium avatar and profile features','Up to 5 re-learning accesses per month','All Free plan features']},
+    'full-course': {name:'Full Course', price:'₹539', billing:'One-time payment · no monthly subscription', description:'One-time access to Cybersecurity Fundamentals.', features:['Course lessons and learning materials','Practical labs and quizzes','Final exam eligibility','Course progress tracking','No monthly subscription']}
+  };
+  const params = new URLSearchParams(location.search);
+  const planId = params.get('plan');
+  const plan = plans[planId];
+  const button = document.getElementById('payButton');
+  const status = document.getElementById('status');
+  const setStatus = (msg, error=false) => { status.textContent=msg; status.classList.toggle('error',error); };
+  if (!plan) { document.getElementById('planName').textContent='No plan selected'; document.getElementById('price').textContent='—'; button.disabled=true; setStatus('Please return to the dashboard and choose a plan.',true); return; }
+  document.getElementById('planName').textContent=plan.name;
+  document.getElementById('price').textContent=plan.price;
+  document.getElementById('billingText').textContent=plan.billing;
+  document.getElementById('features').innerHTML=plan.features.map(x=>'<li></li>').join('');
+  [...document.querySelectorAll('#features li')].forEach((li,i)=>li.textContent=plan.features[i]);
+  const client = window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+  function loadRazorpay(){return new Promise((resolve,reject)=>{if(window.Razorpay)return resolve();const s=document.createElement('script');s.src='https://checkout.razorpay.com/v1/checkout.js';s.onload=resolve;s.onerror=()=>reject(new Error('Razorpay checkout could not load. Please try again.'));document.head.appendChild(s);});}
+  button.addEventListener('click',async()=>{
+    button.disabled=true; button.textContent='Preparing secure checkout…'; setStatus('');
+    try {
+      const {data:userData,error:userError}=await client.auth.getUser();
+      if(userError||!userData.user){location.href='auth.html?next=checkout&plan='+encodeURIComponent(planId);return;}
+      await loadRazorpay();
+      const {data:order,error:orderError}=await client.functions.invoke('create-order',{body:{plan:planId}});
+      if(orderError||!order||!order.order_id||!order.key_id) throw new Error(order?.error||orderError?.message||'Secure order creation failed. Check the Supabase create-order function and its server-side Razorpay credentials.');
+      const options={key:order.key_id,amount:order.amount,currency:order.currency||'INR',name:'CyberShield',description:plan.name+(planId==='monthly-premium'?' — monthly premium':' — one-time course access'),order_id:order.order_id,prefill:{email:userData.user.email||''},notes:{plan:planId},theme:{color:'#22d3ee'},modal:{ondismiss:()=>{button.disabled=false;button.textContent='Continue to secure payment';setStatus('Checkout was closed. You can try again.');}},handler:async(response)=>{
+        button.textContent='Verifying payment…';setStatus('Payment submitted. Verifying securely…');
+        const {data:verification,error:verifyError}=await client.functions.invoke('verify-payment',{body:{plan:planId,razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature}});
+        if(verifyError||!verification||verification.verified!==true||verification.activated!==true){setStatus(verification?.error||verifyError?.message||'Verification/access activation is not confirmed. Do not pay again immediately; contact support with the payment ID.',true);button.disabled=false;button.textContent='Try checkout again';return;}
+        setStatus('Payment verified and plan activated. You can return to your dashboard.');button.textContent='Payment verified';
+      }};
+      const rz=new window.Razorpay(options);rz.on('payment.failed',e=>{setStatus(e?.error?.description||'Payment failed. Please try again.',true);button.disabled=false;button.textContent='Try checkout again';});rz.open();
+    } catch(e){console.error('CyberShield checkout error:',e);setStatus(e.message||'Checkout could not start. Please try again.',true);button.disabled=false;button.textContent='Try checkout again';}
+  });
+})();
+</script></body></html>
