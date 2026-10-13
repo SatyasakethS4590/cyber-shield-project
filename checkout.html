@@ -32,15 +32,24 @@
   document.getElementById('features').innerHTML=plan.features.map(x=>'<li></li>').join('');
   [...document.querySelectorAll('#features li')].forEach((li,i)=>li.textContent=plan.features[i]);
   const client = window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-  function loadRazorpay(){return new Promise((resolve,reject)=>{if(window.Razorpay)return resolve();const s=document.createElement('script');s.src='https://checkout.razorpay.com/v1/checkout.js';s.onload=resolve;s.onerror=()=>reject(new Error('Razorpay checkout could not load. Please try again.'));document.head.appendChild(s);});}
+  function withTimeout(promise, ms, message){
+    let timer;
+    return Promise.race([promise, new Promise((_, reject) => { timer=setTimeout(() => reject(new Error(message)), ms); })])
+      .finally(() => clearTimeout(timer));
+  }
+  function loadRazorpay(){return new Promise((resolve,reject)=>{if(window.Razorpay)return resolve();const s=document.createElement('script');s.src='https://checkout.razorpay.com/v1/checkout.js';s.onload=()=>window.Razorpay?resolve():reject(new Error('Razorpay loaded but checkout is unavailable.'));s.onerror=()=>reject(new Error('Razorpay checkout could not load. Check your internet connection or script blocking.'));document.head.appendChild(s);});}
   button.addEventListener('click',async()=>{
-    button.disabled=true; button.textContent='Preparing secure checkout…'; setStatus('');
+    button.disabled=true; button.textContent='Preparing secure checkout…'; setStatus('Checking your sign-in…');
     try {
-      const {data:userData,error:userError}=await client.auth.getUser();
-      if(userError||!userData.user){location.href='auth.html?next=checkout&plan='+encodeURIComponent(planId);return;}
-      await loadRazorpay();
-      const {data:order,error:orderError}=await client.functions.invoke('create-order',{body:{plan:planId}});
+      const {data:userData,error:userError}=await withTimeout(client.auth.getUser(),12000,'Checking sign-in timed out. Refresh the page and sign in again.');
+      if(userError) throw new Error('Could not check your sign-in: '+userError.message);
+      if(!userData.user){location.href='auth.html?next=checkout&plan='+encodeURIComponent(planId);return;}
+      setStatus('Loading secure payment window…');
+      await withTimeout(loadRazorpay(),15000,'Razorpay checkout took too long to load. Check your internet connection or browser extensions.');
+      setStatus('Creating secure payment order…');
+      const {data:order,error:orderError}=await withTimeout(client.functions.invoke('create-order',{body:{plan:planId}}),20000,'Order creation timed out. Check Supabase Edge Function logs for create-order.');
       if(orderError||!order||!order.order_id||!order.key_id) throw new Error(order?.error||orderError?.message||'Secure order creation failed. Check the Supabase create-order function and its server-side Razorpay credentials.');
+      setStatus('Opening Razorpay checkout…');
       const options={key:order.key_id,amount:order.amount,currency:order.currency||'INR',name:'CyberShield',description:plan.name+(planId==='monthly-premium'?' — monthly premium':' — one-time course access'),order_id:order.order_id,prefill:{email:userData.user.email||''},notes:{plan:planId},theme:{color:'#22d3ee'},modal:{ondismiss:()=>{button.disabled=false;button.textContent='Continue to secure payment';setStatus('Checkout was closed. You can try again.');}},handler:async(response)=>{
         button.textContent='Verifying payment…';setStatus('Payment submitted. Verifying securely…');
         let verification, verifyError;
@@ -52,7 +61,7 @@
           verifyError = err;
         }
         if(verifyError||!verification||verification.verified!==true||verification.activated!==true){setStatus(verification?.error||verifyError?.message||'Verification/access activation is not confirmed. Do not pay again immediately; contact support with the payment ID.',true);button.disabled=false;button.textContent='Try checkout again';return;}
-        setStatus('Payment verified and plan activated. You can return to your dashboard.');button.textContent='Payment verified';
+        setStatus('Payment verified and plan activated. You can return to your dashboard.');button.textContent='Payment verified';button.disabled=true;
       }};
       const rz=new window.Razorpay(options);rz.on('payment.failed',e=>{setStatus(e?.error?.description||'Payment failed. Please try again.',true);button.disabled=false;button.textContent='Try checkout again';});rz.open();
     } catch(e){console.error('CyberShield checkout error:',e);setStatus(e.message||'Checkout could not start. Please try again.',true);button.disabled=false;button.textContent='Try checkout again';}
