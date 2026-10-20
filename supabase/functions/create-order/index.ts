@@ -59,6 +59,13 @@ Deno.serve(async (req) => {
         return respond(400, { error: "For all modules, choose the complete-course bundle. Otherwise choose one or more distinct modules." });
       }
       amount = selectedModules.reduce((sum, id) => sum + modulePrices[id].amount, 0);
+      if (amount >= fullCourseAmount) {
+        return respond(400, { error: "These modules cost as much as or more than the complete course. Choose the ₹539 complete-course plan instead." });
+      }
+      const { data: fullCourseAccess, error: fullCourseError } = await admin.from("course_entitlements")
+        .select("id").eq("user_id", userData.user.id).eq("plan", "full-course").eq("status", "active").limit(1);
+      if (fullCourseError) return respond(500, { error: "Could not check existing course access." });
+      if (fullCourseAccess?.length) return respond(409, { error: "This account already has complete-course access." });
       label = selectedModules.map(id => modulePrices[id].label).join(", ");
     } else {
       return respond(400, { error: "Choose a valid CyberShield plan." });
