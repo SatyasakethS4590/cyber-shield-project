@@ -65,3 +65,28 @@ revoke insert, update, delete, truncate, references, trigger
   on public.course_entitlements from anon, authenticated;
 grant select on public.course_entitlements to authenticated;
 grant all on public.course_entitlements to service_role;
+
+
+-- Keep an immutable receipt for each captured Razorpay payment so replaying
+-- a successful verification cannot extend a 30-day entitlement repeatedly.
+create table if not exists public.course_payment_receipts (
+  payment_id text primary key,
+  order_id text not null unique,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  plan text not null check (plan in ('monthly-premium', 'full-course')),
+  expires_at timestamptz,
+  created_at timestamptz not null default now()
+);
+alter table public.course_payment_receipts enable row level security;
+do $$
+declare p record;
+begin
+  for p in
+    select policyname from pg_policies
+    where schemaname = 'public' and tablename = 'course_payment_receipts'
+  loop
+    execute format('drop policy if exists %I on public.course_payment_receipts', p.policyname);
+  end loop;
+end $$;
+revoke all on public.course_payment_receipts from anon, authenticated;
+grant all on public.course_payment_receipts to service_role;
