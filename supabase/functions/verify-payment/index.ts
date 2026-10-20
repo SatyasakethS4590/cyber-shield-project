@@ -123,7 +123,7 @@ Deno.serve(async (req) => {
       });
       if (receiptInsertError) {
         const { data: raced, error: racedError } = await admin.from("course_payment_receipts")
-          .select("payment_id,order_id,user_id,plan,expires_at").eq("payment_id", paymentId).limit(1);
+          .select("payment_id,order_id,user_id,plan,expires_at,modules").eq("payment_id", paymentId).limit(1);
         if (racedError || !raced?.length || raced[0].user_id !== userData.user.id ||
             raced[0].plan !== receiptPlan || raced[0].order_id !== orderId || JSON.stringify([...(raced[0].modules || [])].sort()) !== JSON.stringify(selectedModules)) {
           return respond(409, { verified: true, activated: false, error: "This payment could not be recorded safely. Contact support with the payment ID." });
