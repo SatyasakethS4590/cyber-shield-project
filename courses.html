@@ -14,10 +14,14 @@ document.getElementById("nav").innerHTML=nav("courses");
 try{
  user=await requireUser();if(!user)throw new Error("Sign in to continue.");
  p=getProgress(user);setupLogout();
- const {data:rows,error}=await supabase.from("course_entitlements").select("plan,status,expires_at").eq("user_id",user.id).eq("status","active");
- if(error)throw new Error("Could not verify module access. Refresh the page or contact support.");
+ const [{data:plans,error:planError},{data:moduleRows,error:moduleError}]=await Promise.all([
+  supabase.from("course_entitlements").select("plan,status,expires_at").eq("user_id",user.id).eq("status","active"),
+  supabase.from("course_module_entitlements").select("module_id,status,expires_at").eq("user_id",user.id).eq("status","active")
+ ]);
+ if(planError||moduleError)throw new Error("Could not verify module access. Refresh the page or contact support.");
  const now=Date.now();
- for(const row of rows||[]){if(!row.expires_at||new Date(row.expires_at).getTime()>now){if(row.plan==="full-course")M.forEach(m=>unlocked.add(m.id));if(row.plan.startsWith("module-"))unlocked.add(row.plan.slice(7));}}
+ for(const row of plans||[]){if(!row.expires_at||new Date(row.expires_at).getTime()>now){if(row.plan==="full-course")M.forEach(m=>unlocked.add(m.id));}}
+ for(const row of moduleRows||[]){if(!row.expires_at||new Date(row.expires_at).getTime()>now)unlocked.add(row.module_id);}
  renderList();
  if(unlocked.size){const first=M.findIndex(m=>unlocked.has(m.id));selectModule(first<0?0:first);}
  else {document.getElementById("lessonTitle").textContent="Choose a module to begin";document.getElementById("lessonDesc").textContent="Your account is ready. Choose a module or the complete course to unlock its original narrated lessons.";document.getElementById("accessNote").textContent="No purchased modules were found for this account. Choose your modules to continue.";renderList();}
