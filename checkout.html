@@ -17,11 +17,26 @@
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt';
   const plans = {
     'monthly-premium': {name:'Monthly Premium', price:'₹199', billing:'₹199 for 30 days of access · renewal is manual', description:'Premium access for 30 days from verified payment; renewal is manual.', features:['Ad-free learning while active','Premium avatar and profile features','Up to 5 re-learning accesses per month','All Free plan features']},
-    'full-course': {name:'Full Course', price:'₹539', billing:'One-time payment · no monthly subscription', description:'One-time access to Cybersecurity Fundamentals.', features:['Course lessons and learning materials','Practical labs and quizzes','Final exam eligibility','Course progress tracking','No monthly subscription']}
+    'full-course': {name:'Complete Cybersecurity Fundamentals', price:'₹539', billing:'One-time payment · no monthly subscription', description:'One-time access to all seven original CyberShield modules.', features:['All seven modules, including Kali Linux','Original narrated slide classes','Practical labs and quizzes','Final exam eligibility','Course progress tracking']},
+    'selected-modules': {name:'Selected Modules', price:'', billing:'One-time payment · only the selected modules are unlocked', description:'Pay for the modules you selected.', features:['Original narrated slide classes','Module-specific lessons and progress','Practice activities for purchased modules']}
+  };
+  const moduleCatalog = {
+    basics:{name:'Security Basics',price:99}, networking:{name:'Networking',price:99},
+    linux:{name:'Linux Essentials',price:99}, 'web-security':{name:'Web Security',price:99},
+    cryptography:{name:'Cryptography',price:99}, awareness:{name:'Security Awareness',price:99},
+    'kali-linux':{name:'Kali Linux',price:149}
   };
   const params = new URLSearchParams(location.search);
   const planId = params.get('plan');
-  const plan = plans[planId];
+  const moduleIds = [...new Set((params.get('modules')||'').split(',').filter(Boolean))].sort();
+  let plan = plans[planId];
+  if (planId === 'selected-modules') {
+    const valid = moduleIds.length > 0 && moduleIds.every(id => Object.hasOwn(moduleCatalog,id)) && moduleIds.length < Object.keys(moduleCatalog).length;
+    if (valid) {
+      const amount = moduleIds.reduce((sum,id)=>sum+moduleCatalog[id].price,0);
+      plan = {...plans['selected-modules'], name:moduleIds.map(id=>moduleCatalog[id].name).join(', '), price:'₹'+amount, billing:'₹'+amount+' one-time · '+moduleIds.length+' module(s)', features:[...plans['selected-modules'].features,'Selected: '+moduleIds.map(id=>moduleCatalog[id].name).join(', ')]};
+    } else plan = null;
+  }
   const button = document.getElementById('payButton');
   const status = document.getElementById('status');
   const setStatus = (msg, error=false) => { status.textContent=msg; status.classList.toggle('error',error); };
@@ -47,14 +62,14 @@
       setStatus('Loading secure payment window…');
       await withTimeout(loadRazorpay(),15000,'Razorpay checkout took too long to load. Check your internet connection or browser extensions.');
       setStatus('Creating secure payment order…');
-      const {data:order,error:orderError}=await withTimeout(client.functions.invoke('create-order',{body:{plan:planId}}),20000,'Order creation timed out. Check Supabase Edge Function logs for create-order.');
+      const {data:order,error:orderError}=await withTimeout(client.functions.invoke('create-order',{body:{plan:planId,modules:moduleIds}}),20000,'Order creation timed out. Check Supabase Edge Function logs for create-order.');
       if(orderError||!order||!order.order_id||!order.key_id) throw new Error(order?.error||orderError?.message||'Secure order creation failed. Check the Supabase create-order function and its server-side Razorpay credentials.');
       setStatus('Opening Razorpay checkout…');
-      const options={key:order.key_id,amount:order.amount,currency:order.currency||'INR',name:'CyberShield',description:plan.name+(planId==='monthly-premium'?' — 30-day premium access':' — one-time course access'),order_id:order.order_id,prefill:{email:userData.user.email||''},notes:{plan:planId},theme:{color:'#22d3ee'},modal:{ondismiss:()=>{button.disabled=false;button.textContent='Continue to secure payment';setStatus('Checkout was closed. You can try again.');}},handler:async(response)=>{
+      const options={key:order.key_id,amount:order.amount,currency:order.currency||'INR',name:'CyberShield',description:plan.name+(planId==='monthly-premium'?' — 30-day premium access':' — one-time learning access'),order_id:order.order_id,prefill:{email:userData.user.email||''},notes:{plan:planId},theme:{color:'#22d3ee'},modal:{ondismiss:()=>{button.disabled=false;button.textContent='Continue to secure payment';setStatus('Checkout was closed. You can try again.');}},handler:async(response)=>{
         button.textContent='Verifying payment…';setStatus('Payment submitted. Verifying securely…');
         let verification, verifyError;
         try {
-          const result = await client.functions.invoke('verify-payment',{body:{plan:planId,razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature}});
+          const result = await client.functions.invoke('verify-payment',{body:{plan:planId,modules:moduleIds,razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature}});
           verification = result.data;
           verifyError = result.error;
         } catch (err) {
