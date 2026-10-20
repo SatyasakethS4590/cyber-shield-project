@@ -77,7 +77,7 @@ Deno.serve(async (req) => {
         return respond(400, { verified: false, activated: false, error: "Use the complete-course plan when all modules are selected." });
       }
       amount = selectedModules.reduce((sum,id)=>sum+modulePrices[id].amount,0);
-      receiptPlan = "selected-modules:" + selectedModules.join(",");
+      receiptPlan = planId;
     }
     const expectedSignature = await hmacHex(razorpaySecret, `${orderId}|${paymentId}`);
     if (!safeEqual(expectedSignature, signature)) return respond(400, { verified: false, activated: false, error: "Razorpay signature verification failed." });
@@ -100,12 +100,12 @@ Deno.serve(async (req) => {
     const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
     const now = new Date();
     const { data: priorReceipts, error: receiptReadError } = await admin.from("course_payment_receipts")
-      .select("payment_id,order_id,user_id,plan,expires_at").eq("payment_id", paymentId).limit(1);
+      .select("payment_id,order_id,user_id,plan,expires_at,modules").eq("payment_id", paymentId).limit(1);
     if (receiptReadError) return respond(500, { verified: true, activated: false, error: "Payment is verified, but its receipt could not be checked. Contact support with the payment ID." });
     let expiresAt: string | null = priorReceipts?.[0]?.expires_at ?? null;
     if (priorReceipts?.length) {
       const receipt = priorReceipts[0];
-      if (receipt.user_id !== userData.user.id || receipt.plan !== receiptPlan || receipt.order_id !== orderId) {
+      if (receipt.user_id !== userData.user.id || receipt.plan !== receiptPlan || receipt.order_id !== orderId || JSON.stringify([...(receipt.modules || [])].sort()) !== JSON.stringify(selectedModules)) {
         return respond(409, { verified: true, activated: false, error: "This payment has already been associated with a different account, plan, or order." });
       }
     } else {
@@ -119,29 +119,38 @@ Deno.serve(async (req) => {
         expiresAt = currentExpiry.toISOString();
       }
       const { error: receiptInsertError } = await admin.from("course_payment_receipts").insert({
-        payment_id: paymentId, order_id: orderId, user_id: userData.user.id, plan: receiptPlan, expires_at: expiresAt,
+        payment_id: paymentId, order_id: orderId, user_id: userData.user.id, plan: receiptPlan, modules: selectedModules, expires_at: expiresAt,
       });
       if (receiptInsertError) {
         const { data: raced, error: racedError } = await admin.from("course_payment_receipts")
           .select("payment_id,order_id,user_id,plan,expires_at").eq("payment_id", paymentId).limit(1);
         if (racedError || !raced?.length || raced[0].user_id !== userData.user.id ||
-            raced[0].plan !== receiptPlan || raced[0].order_id !== orderId) {
+            raced[0].plan !== receiptPlan || raced[0].order_id !== orderId || JSON.stringify([...(raced[0].modules || [])].sort()) !== JSON.stringify(selectedModules)) {
           return respond(409, { verified: true, activated: false, error: "This payment could not be recorded safely. Contact support with the payment ID." });
         }
         expiresAt = raced[0].expires_at;
       }
     }
-    const entitlementPlans = planId === "selected-modules" ? selectedModules.map(id => "module-" + id) : [planId];
-    for (const entitlementPlan of entitlementPlans) {
-      const entitlement = {
-        user_id: userData.user.id, plan: entitlementPlan, status: "active",
+    if (planId === "selected-modules") {
+      for (const moduleId of selectedModules) {
+        const { error: saveError } = await admin.from("course_module_entitlements").upsert({
+          user_id: userData.user.id, module_id: moduleId, status: "active",
+          expires_at: null, razorpay_order_id: orderId, razorpay_payment_id: paymentId,
+          updated_at: now.toISOString(),
+        }, { onConflict: "user_id,module_id" });
+        if (saveError) {
+          console.error("Module entitlement save failed", moduleId, saveError.message);
+          return respond(500, { verified: true, activated: false, error: "Payment is verified, but module access could not be activated. Contact support with the payment ID." });
+        }
+      }
+    } else {
+      const { error: saveError } = await admin.from("course_entitlements").upsert({
+        user_id: userData.user.id, plan: planId, status: "active",
         expires_at: expiresAt, razorpay_order_id: orderId, razorpay_payment_id: paymentId,
         updated_at: now.toISOString(),
-      };
-      const { error: saveError } = await admin.from("course_entitlements")
-        .upsert(entitlement, { onConflict: "user_id,plan" });
+      }, { onConflict: "user_id,plan" });
       if (saveError) {
-        console.error("Entitlement save failed", entitlementPlan, saveError.message);
+        console.error("Entitlement save failed", saveError.message);
         return respond(500, { verified: true, activated: false, error: "Payment is verified, but course access could not be activated. Contact support with the payment ID." });
       }
     }
