@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 const plans = {
-  "monthly-premium": { amount: 9900, days: 30 },
+  "monthly-premium": { amount: 19900, days: 30 },
   "full-course": { amount: 53900, days: null },
 } as const;
 
