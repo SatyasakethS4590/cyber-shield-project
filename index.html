@@ -411,12 +411,12 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
   async function checkExistingAccess(user) {
     const { data, error } = await client
       .from("course_entitlements")
-      .select("id")
+      .select("id,status,expires_at")
       .eq("user_id", user.id)
       .eq("plan", "full-course")
       .limit(1);
 
-    if (!error && data && data.length > 0) {
+    if (!error && data && data.some((item) => item.status === "active" && (!item.expires_at || new Date(item.expires_at) > new Date()))) {
       button.textContent = "Full Course Already Purchased";
       showStatus("Your account has full-course access. Sign in on the learning dashboard to continue.");
       button.disabled = true;
@@ -482,6 +482,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#7f91b2}
           const { data: verification, error: verifyError } =
             await client.functions.invoke("verify-payment", {
               body: {
+                plan: "full-course",
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature
