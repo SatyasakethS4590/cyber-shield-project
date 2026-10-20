@@ -91,23 +91,58 @@ Deno.serve(async (req) => {
     }
 
     const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
-    const { data: priorPayment, error: priorError } = await admin.from("course_entitlements")
-      .select("id,user_id,plan").eq("razorpay_payment_id", paymentId).limit(1);
-    if (priorError) return respond(500, { verified: true, activated: false, error: "Payment is verified, but entitlement storage failed. Contact support with the payment ID." });
-    if (priorPayment?.length && (priorPayment[0].user_id !== userData.user.id || priorPayment[0].plan !== planId)) {
-      return respond(409, { verified: true, activated: false, error: "This payment has already been associated with a different entitlement." });
+    const now = new Date();
+
+    // A receipt is immutable and keyed by payment ID. Replaying the same
+    // successful verification reuses its original expiry instead of extending access.
+    const { data: priorReceipts, error: receiptReadError } = await admin.from("course_payment_receipts")
+      .select("payment_id,order_id,user_id,plan,expires_at")
+      .eq("payment_id", paymentId).limit(1);
+    if (receiptReadError) {
+      return respond(500, { verified: true, activated: false, error: "Payment is verified, but its receipt could not be checked. Contact support with the payment ID." });
     }
 
-    const now = new Date();
-    let expiresAt: string | null = null;
-    if (plan.days) {
-      const { data: existing, error: existingError } = await admin.from("course_entitlements")
-        .select("id,expires_at,status").eq("user_id", userData.user.id).eq("plan", planId).limit(1);
-      if (existingError) return respond(500, { verified: true, activated: false, error: "Payment is verified, but entitlement storage failed." });
-      const currentExpiry = existing?.[0]?.status === "active" && existing[0].expires_at && new Date(existing[0].expires_at) > now
-        ? new Date(existing[0].expires_at) : now;
-      currentExpiry.setDate(currentExpiry.getDate() + plan.days);
-      expiresAt = currentExpiry.toISOString();
+    let expiresAt: string | null = priorReceipts?.[0]?.expires_at ?? null;
+    if (priorReceipts?.length) {
+      const receipt = priorReceipts[0];
+      if (receipt.user_id !== userData.user.id || receipt.plan !== planId || receipt.order_id !== orderId) {
+        return respond(409, { verified: true, activated: false, error: "This payment has already been associated with a different account or order." });
+      }
+    } else {
+      if (plan.days) {
+        const { data: existing, error: existingError } = await admin.from("course_entitlements")
+          .select("id,expires_at,status").eq("user_id", userData.user.id).eq("plan", planId).limit(1);
+        if (existingError) {
+          return respond(500, { verified: true, activated: false, error: "Payment is verified, but entitlement storage failed." });
+        }
+        const currentExpiry = existing?.[0]?.status === "active" && existing[0].expires_at && new Date(existing[0].expires_at) > now
+          ? new Date(existing[0].expires_at) : now;
+        currentExpiry.setDate(currentExpiry.getDate() + plan.days);
+        expiresAt = currentExpiry.toISOString();
+      }
+
+      const { error: receiptInsertError } = await admin.from("course_payment_receipts").insert({
+        payment_id: paymentId,
+        order_id: orderId,
+        user_id: userData.user.id,
+        plan: planId,
+        expires_at: expiresAt,
+      });
+
+      if (receiptInsertError) {
+        // A concurrent retry may have inserted the same receipt. Re-read it
+        // and continue only when all ownership fields match exactly.
+        const { data: racedReceipts, error: racedReadError } = await admin.from("course_payment_receipts")
+          .select("payment_id,order_id,user_id,plan,expires_at")
+          .eq("payment_id", paymentId).limit(1);
+        if (racedReadError || !racedReceipts?.length ||
+            racedReceipts[0].user_id !== userData.user.id ||
+            racedReceipts[0].plan !== planId ||
+            racedReceipts[0].order_id !== orderId) {
+          return respond(409, { verified: true, activated: false, error: "This payment was already recorded or could not be recorded safely. Contact support with the payment ID." });
+        }
+        expiresAt = racedReceipts[0].expires_at;
+      }
     }
 
     const entitlement = {
