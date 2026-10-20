@@ -188,10 +188,13 @@ function clampPercent(value){const n=Number(value);return Number.isFinite(n)?Mat
 function setBar(id,p){const el=$(id);if(el)el.style.width=clampPercent(p)+"%"}
 function setText(id,value){const el=$(id);if(el)el.textContent=String(value)}
 function percent(part,total){const t=Number(total);return !Number.isFinite(t)||t<=0?0:clampPercent((Number(part)||0)/t*100)}
+let learningMeta={};
 function updateDashboard(row){
- const videoTotal=Number(row.video_total_minutes)>0?Number(row.video_total_minutes):360,videoDone=Math.max(0,Number(row.video_completed_minutes)||0);
- const labsTotal=Number(row.labs_total)>0?Number(row.labs_total):24,labsDone=Math.max(0,Number(row.labs_completed)||0);
- const quizzesTotal=Number(row.quizzes_total)>0?Number(row.quizzes_total):6,quizzesDone=Math.max(0,Number(row.quizzes_completed)||0),examDone=row.exam_completed===true;
+ const lessonDone=Array.from({length:6},(_,i)=>learningMeta["lesson_"+i]).filter(Boolean).length;
+ const localLabsDone=Array.from({length:4},(_,i)=>learningMeta["lab_"+i]).filter(Boolean).length;
+ const videoTotal=360,videoDone=Math.max(Number(row.video_completed_minutes)||0,lessonDone*60);
+ const labsTotal=4,labsDone=Math.max(Number(row.labs_completed)||0,localLabsDone);
+ const quizzesTotal=1,quizzesDone=learningMeta.final_exam_attempts?1:Math.max(0,Number(row.quizzes_completed)||0),examDone=row.exam_completed===true||learningMeta.final_exam_completed===true;
  const vp=percent(videoDone,videoTotal),lp=percent(labsDone,labsTotal),qp=percent(quizzesDone,quizzesTotal),ep=examDone?100:0;
  const overall=clampPercent((vp*6+lp*4+qp*2+ep)/13);
  $("progressRing").style.setProperty("--progress",overall+"%");setText("ringPercent",overall+"%");
@@ -200,8 +203,8 @@ function updateDashboard(row){
  // The current schema has no quiz-score field; show zero rather than inventing an average.
  setText("quizAverage",0);setText("videoPercent",vp+"%");setText("labPercent",lp+"%");setText("quizPercent",qp+"%");setText("examPercent",ep+"%");
  setBar("videoBar",vp);setBar("labBar",lp);setBar("quizBar",qp);setBar("examBar",ep);
- // Individual module completion will be connected when lesson-level tracking is added.
- for(let i=1;i<=6;i++){setText("modulePercent"+i,"0%");setBar("moduleBar"+i,0);setText("skill"+i,"0% progress")}
+ // Reflect lesson completion saved by the course page.
+ for(let i=1;i<=6;i++){const done=learningMeta["lesson_"+(i-1)]?100:0;setText("modulePercent"+i,done+"%");setBar("moduleBar"+i,done);setText("skill"+i,done+"% progress")}
  const activities=(videoDone>0?1:0)+(labsDone>0?1:0)+(quizzesDone>0?1:0),cp=clampPercent(activities/3*100);
  $("certificateRing").style.setProperty("--progress",cp+"%");setText("certificatePercent",cp+"%");setText("certificateActivityText",activities+" / 3");setBar("certificateBar",cp);
  setText("certificateMessage",examDone&&overall>=70?"Your recorded progress may meet the learning threshold. Certificate eligibility must be confirmed by the exam system.":"Complete lessons, labs, quizzes, and pass the final exam to qualify for a certificate.");
@@ -211,7 +214,7 @@ function updateDashboard(row){
 }
 async function loadProgress(userId){
  const {data,error}=await supabase.from("course_progress").select("*").eq("user_id",userId).maybeSingle();
- if(error){console.error("Progress read error:",error);showNotice("We couldn't load saved progress. Check that the course_progress SELECT policy lets signed-in users read only their own row.");return}
+ if(error){console.error("Progress read error:",error);showNotice("Database progress is unavailable; showing activity saved to your account metadata.");updateDashboard({video_completed_minutes:0,video_total_minutes:360,labs_completed:0,labs_total:4,quizzes_completed:0,quizzes_total:1,exam_completed:false,xp:0,streak_days:0});return}
  if(data){updateDashboard(data);return}
  const row={user_id:userId,video_completed_minutes:0,video_total_minutes:360,labs_completed:0,labs_total:24,quizzes_completed:0,quizzes_total:6,exam_completed:false,xp:0,streak_days:0};
  const {data:inserted,error:insertError}=await supabase.from("course_progress").insert(row).select("*").single();
@@ -258,8 +261,9 @@ async function init(){
  const {data:{session},error}=await supabase.auth.getSession();
  if(error)console.error("Session check:",error);
  if(!session){window.location.replace("auth.html");return}
- const user=session.user,name=(user.user_metadata?.full_name||user.user_metadata?.name||(user.email||"student").split("@")[0]).trim();
- setText("welcomeName",name.split(/\s+/)[0]||"Learner");setText("profileName",name||"Student");setText("avatarInitial",(name[0]||"S").toUpperCase());
+ const user=session.user,name=(user.user_metadata?.cybershield?.display_name||user.user_metadata?.full_name||user.user_metadata?.name||(user.email||"student").split("@")[0]).trim();
+ learningMeta=user.user_metadata?.cybershield||{};
+ setText("welcomeName",name.split(/\s+/)[0]||"Learner");setText("profileName",name||"Student");setText("avatarInitial",learningMeta.avatar||((name[0]||"S").toUpperCase()));
  await Promise.all([loadProgress(user.id),recordAndLoadAttendance(user.id)]);
 }
 $("logoutBtn").addEventListener("click",async()=>{const {error}=await supabase.auth.signOut();if(error){showNotice("Logout failed: "+error.message);return}window.location.replace("auth.html")});
