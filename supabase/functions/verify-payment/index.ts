@@ -77,6 +77,9 @@ Deno.serve(async (req) => {
         return respond(400, { verified: false, activated: false, error: "Use the complete-course plan when all modules are selected." });
       }
       amount = selectedModules.reduce((sum,id)=>sum+modulePrices[id].amount,0);
+      if (amount >= fullCourseAmount) {
+        return respond(400, { verified: false, activated: false, error: "These modules cost as much as or more than the complete course. Use the ₹539 complete-course plan." });
+      }
       receiptPlan = planId;
     }
     const expectedSignature = await hmacHex(razorpaySecret, `${orderId}|${paymentId}`);
