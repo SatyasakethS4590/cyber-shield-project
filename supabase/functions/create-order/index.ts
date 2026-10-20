@@ -8,7 +8,7 @@ const corsHeaders = {
 };
 
 const plans = {
-  "monthly-premium": { amount: 9900, label: "Monthly Premium — 30 days" },
+  "monthly-premium": { amount: 19900, label: "Monthly Premium — 30 days" },
   "full-course": { amount: 53900, label: "CyberShield Full Course" },
 } as const;
 
