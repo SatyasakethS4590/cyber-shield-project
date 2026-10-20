@@ -91,6 +91,61 @@ main{min-width:0;padding:26px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 </aside>
 <main>
 <header class="topbar"><div style="display:flex;align-items:center;gap:12px"><button class="mobile-menu" id="menuBtn" aria-label="Open navigation" type="button">☰</button><div class="breadcrumb">CyberShield <span style="color:#56627e"> / </span> <b>Dashboard</b></div></div><div class="top-actions"><label class="search"><span>⌕</span><input id="moduleSearch" type="search" placeholder="Search modules..." aria-label="Search modules"></label><div class="profile"><div class="avatar" id="avatarInitial">S</div><div class="profile-text"><div class="profile-name" id="profileName">Student</div><div class="profile-sub">Free learner</div></div></div></div></header>
+<section class="content-grid" id="plans" aria-labelledby="plansTitle">
+  <article class="panel" style="grid-column:1 / -1">
+    <h3 id="plansTitle">Choose Your CyberShield Plan</h3>
+    <p class="panel-sub">Choose a plan to open its secure checkout page.</p>
+
+    <div class="plan-grid">
+      <article class="plan-card">
+        <h3>Free Learner</h3>
+        <div class="plan-price">₹0</div>
+        <p>Start learning cybersecurity at no cost.</p>
+        <ul>
+          <li>Course learning materials</li>
+          <li>Practice quizzes and labs</li>
+          <li>Progress tracking</li>
+          <li>Basic profile customization</li>
+          <li>Ads may be shown</li>
+        </ul>
+        <a class="btn secondary" href="courses.html">Start learning</a>
+      </article>
+
+      <article class="plan-card featured">
+        <h3>Monthly Premium</h3>
+        <div class="plan-price">₹99 <small>/ 30 days</small></div>
+        <p>Premium features while your subscription is active.</p>
+        <ul>
+          <li>Ad-free learning while active</li>
+          <li>Premium profile features</li>
+          <li>Premium avatar customization</li>
+          <li>Up to 5 re-learning accesses per month</li>
+          <li>Includes Free plan features</li>
+        </ul>
+        <a class="btn" href="checkout.html?plan=monthly-premium">Continue to payment · ₹99 / 30 days</a>
+      </article>
+
+      <article class="plan-card">
+        <h3>Full Course</h3>
+        <div class="plan-price">₹539 <small>one-time</small></div>
+        <p>One-time access to the Cybersecurity Fundamentals course.</p>
+        <ul>
+          <li>Course lessons and learning materials</li>
+          <li>Practical labs and quizzes</li>
+          <li>Final exam eligibility</li>
+          <li>Course progress tracking</li>
+          <li>No monthly subscription</li>
+        </ul>
+        <a class="btn secondary" href="checkout.html?plan=full-course">Continue to payment · ₹539</a>
+      </article>
+    </div>
+
+    <p class="plan-note">
+      Secure checkout opens on the next page. Payments will only complete if the matching Razorpay/Supabase server functions are configured and verify the transaction.
+    </p>
+  </article>
+</section>
+
 <div id="statusNotice" class="notice" role="status"></div>
 <section class="welcome"><div class="welcome-content"><div class="eyebrow">YOUR CYBERSECURITY JOURNEY</div><h1>Welcome back, <span id="welcomeName">Learner</span>.</h1><p>Build practical cybersecurity skills one lesson at a time. Learn the concepts, practise safely, and track your progress as you go.</p><a class="btn" href="courses.html">▶ &nbsp; Continue learning</a> <a class="btn secondary" href="#modules" style="margin-left:8px">Explore modules</a></div></section>
 <section class="stats" aria-label="Learning statistics">
@@ -117,63 +172,10 @@ main{min-width:0;padding:26px clamp(18px,3vw,42px) 42px}.topbar{display:flex;jus
 <article class="panel"><h3>Certificate Progress</h3><p class="panel-sub">Finish the required activities and pass the final exam to qualify.</p><div class="ring" style="--progress:0%;width:106px;height:106px;margin:5px auto 16px" id="certificateRing"><div class="ring-inner"><strong id="certificatePercent">0%</strong><span>ELIGIBILITY</span></div></div><div class="mini-row"><span>Required activities</span><b id="certificateActivityText">0 / 3</b></div><div class="bar"><span id="certificateBar"></span></div><p class="empty-state" id="certificateMessage" style="margin-top:14px">Your certificate will become available when course requirements are met and the final exam is passed.</p><a class="btn secondary" href="certificates.html" style="width:100%;margin-top:10px">View certificates</a></article>
 </section>
 <section class="content-grid" id="attendanceSection"><article class="panel"><h3>Daily attendance</h3><p class="panel-sub">Your login is recorded once per day using India Standard Time (IST).</p><div class="attendance-summary"><div class="attendance-stat"><small>Days attended</small><strong id="attendanceDays">—</strong></div><div class="attendance-stat"><small>Current streak</small><strong id="attendanceStreak">—</strong></div><div class="attendance-stat"><small>Course day</small><strong id="courseDay">— / 120</strong></div></div><div class="mini-row"><span>120-day attendance</span><b id="attendancePercent">0%</b></div><div class="bar"><span id="attendanceBar"></span></div><div class="section-head" style="margin:20px 0 12px"><div><h3>Recent 14 days</h3><p class="panel-sub" style="margin-bottom:0">Green = attendance recorded</p></div></div><div id="attendanceCalendar" class="attendance-calendar" aria-live="polite"></div><p id="attendanceMessage" class="attendance-note">Loading attendance…</p></article><article class="panel"><h3>How attendance works</h3><p class="panel-sub">Attendance and lesson completion are tracked separately.</p><div class="activity"><div class="activity-icon">📅</div><div><strong>One record per day</strong><p>Signing in multiple times on the same IST date counts as one attendance day.</p></div></div><div class="activity"><div class="activity-icon">📘</div><div><strong>Complete the daily lesson</strong><p>Attendance alone does not mark lessons, labs, quizzes, or exams as completed.</p></div></div><div class="activity"><div class="activity-icon">🛡️</div><div><strong>Keep learning responsibly</strong><p>Use only authorized labs and systems. Missed days remain missed; attendance is not backdated.</p></div></div></article></section>
-<section class="content-grid"><article class="panel"><h3>Recent activity</h3><p class="panel-sub">Your learning milestones appear here.</p><div class="activity"><div class="activity-icon">👋</div><div><strong>Welcome to CyberShield</strong><p>Account connected. Start your first lesson to begin building progress.</p></div></div><div class="activity"><div class="activity-icon">📘</div><div><strong>Cybersecurity Fundamentals</strong><p>Your 13-hour learning path is ready when you are.</p></div></div></article>
+<section class="content-grid"><article class="panel"><h3>Recent activity</h3><p class="panel-sub">Your learning milestones appear here.</p><div class="activity"><div class="activity-icon">👋</div><div><strong>Welcome to CyberShield</strong><p>Account connected. Start your first lesson to begin building progress.</p></div></div><div class="activity"><div class="activity-icon">📘</div><div><strong>Cybersecurity Fundamentals</strong><p>Your 10-hour learning path is ready: about 6 hours of lessons plus 4 hours of practice.</p></div></div></article>
 <article class="panel"><h3>Achievements</h3><p class="panel-sub">Milestones unlock as you learn.</p><div class="achievement-grid"><div class="achievement"><div class="medal">🌱</div><strong>First Steps</strong><small>Complete a lesson</small></div><div class="achievement"><div class="medal">🧪</div><strong>Lab Starter</strong><small>Complete a lab</small></div><div class="achievement"><div class="medal">🏆</div><strong>Exam Ready</strong><small>Pass the final exam</small></div></div></article></section>
 
-<section class="content-grid" id="plans" aria-labelledby="plansTitle">
-  <article class="panel" style="grid-column:1 / -1">
-    <h3 id="plansTitle">Choose Your CyberShield Plan</h3>
-    <p class="panel-sub">Choose a plan to open its secure checkout page.</p>
 
-    <div class="plan-grid">
-      <article class="plan-card">
-        <h3>Free Learner</h3>
-        <div class="plan-price">₹0</div>
-        <p>Start learning cybersecurity at no cost.</p>
-        <ul>
-          <li>Course learning materials</li>
-          <li>Practice quizzes and labs</li>
-          <li>Progress tracking</li>
-          <li>Basic profile customization</li>
-          <li>Ads may be shown</li>
-        </ul>
-        <a class="btn secondary" href="courses.html">Start learning</a>
-      </article>
-
-      <article class="plan-card featured">
-        <h3>Monthly Premium</h3>
-        <div class="plan-price">₹249 <small>/ month</small></div>
-        <p>Premium features while your subscription is active.</p>
-        <ul>
-          <li>Ad-free learning while active</li>
-          <li>Premium profile features</li>
-          <li>Premium avatar customization</li>
-          <li>Up to 5 re-learning accesses per month</li>
-          <li>Includes Free plan features</li>
-        </ul>
-        <a class="btn" href="checkout.html?plan=monthly-premium">Continue to payment · ₹249/month</a>
-      </article>
-
-      <article class="plan-card">
-        <h3>Full Course</h3>
-        <div class="plan-price">₹539 <small>one-time</small></div>
-        <p>One-time access to the Cybersecurity Fundamentals course.</p>
-        <ul>
-          <li>Course lessons and learning materials</li>
-          <li>Practical labs and quizzes</li>
-          <li>Final exam eligibility</li>
-          <li>Course progress tracking</li>
-          <li>No monthly subscription</li>
-        </ul>
-        <a class="btn secondary" href="checkout.html?plan=full-course">Continue to payment · ₹539</a>
-      </article>
-    </div>
-
-    <p class="plan-note">
-      Secure checkout opens on the next page. Payments will only complete if the matching Razorpay/Supabase server functions are configured and verify the transaction.
-    </p>
-  </article>
-</section>
 
 <footer class="footer">CyberShield · Learn cybersecurity responsibly. Use practical skills only where you have permission.</footer>
 </main></div>
