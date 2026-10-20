@@ -61,7 +61,7 @@ Deno.serve(async (req) => {
     const signature = body?.razorpay_signature ?? body?.signature;
     const planId = body?.plan;
     if (typeof orderId !== "string" || typeof paymentId !== "string" || typeof signature !== "string" ||
-        typeof planId !== "string" || !(planId in plans)) {
+        typeof planId !== "string" || !Object.hasOwn(plans, planId)) {
       return respond(400, { verified: false, activated: false, error: "Payment verification details are incomplete." });
     }
     const plan = plans[planId as keyof typeof plans];
