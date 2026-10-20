@@ -1,0 +1,9 @@
+import {createClient} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+export const supabase=createClient("https://hkiszhyzguhhiughbcrj.supabase.co","sb_publishable_Jl1vqEQhCIY5XrBXh6I-gw_MO_CeIGt");
+export async function requireUser(){const r=await supabase.auth.getSession();if(r.error)throw r.error;if(!r.data.session){location.replace("auth.html");return null}return r.data.session.user}
+export function show(id,msg){const e=document.getElementById(id);if(e){e.textContent=msg;e.classList.add("show")}}
+export function getProgress(user){return user&&user.user_metadata&&user.user_metadata.cybershield||{}}
+export async function saveMeta(patch){const r=await supabase.auth.getUser();if(r.error)throw r.error;if(!r.data.user)throw new Error("Please sign in again.");const next=Object.assign({},r.data.user.user_metadata||{},patch);const u=await supabase.auth.updateUser({data:next});if(u.error)throw u.error;return u.data.user}
+export async function markDone(user,key,value=true){const p=Object.assign({},getProgress(user));p[key]=value;return saveMeta({cybershield:p})}
+export function nav(active){const links=[["Dashboard","dashboard.html",""],["Lessons","courses.html","courses"],["Labs","labs.html","labs"],["Quizzes","quizzes.html","quizzes"],["AI Tutor","ai-tutor.html","tutor"],["Profile / Avatar","profile.html","profile"],["Certificates","achievements.html","certs"]];return '<header class="top"><div class="wrap nav"><a class="brand" href="index.html">🛡️ Cyber<b>Shield</b></a><nav class="navlinks">'+links.map(x=>'<a class="'+(active===x[2]?"active":"")+'" href="'+x[1]+'">'+x[0]+'</a>').join("")+'</nav><button class="btn" id="logout">Log out</button></div></header>'}
+export function setupLogout(){const b=document.getElementById("logout");if(b)b.onclick=async()=>{const r=await supabase.auth.signOut();if(r.error){alert(r.error.message);return}location.replace("auth.html")}}
