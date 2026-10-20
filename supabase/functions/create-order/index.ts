@@ -42,7 +42,7 @@ Deno.serve(async (req) => {
 
     const body = await req.json().catch(() => ({}));
     const planId = body?.plan;
-    if (typeof planId !== "string" || !(planId in plans)) return respond(400, { error: "Choose a valid CyberShield plan." });
+    if (typeof planId !== "string" || !Object.hasOwn(plans, planId)) return respond(400, { error: "Choose a valid CyberShield plan." });
     const plan = plans[planId as keyof typeof plans];
 
     const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
