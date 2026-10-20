@@ -71,8 +71,8 @@ Deno.serve(async (req) => {
       if (existing?.length) return respond(409, { error: "This account already has full-course access." });
     }
     if (planId === "selected-modules") {
-      const { data: existing, error } = await admin.from("course_entitlements")
-        .select("plan").eq("user_id", userData.user.id).eq("status", "active").in("plan", selectedModules.map(id => "module-" + id));
+      const { data: existing, error } = await admin.from("course_module_entitlements")
+        .select("module_id").eq("user_id", userData.user.id).eq("status", "active").in("module_id", selectedModules);
       if (error) return respond(500, { error: "Could not check existing module access." });
       if (existing?.length) return respond(409, { error: "You already have access to at least one selected module. Remove purchased modules or choose a different selection." });
     }
