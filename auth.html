@@ -69,17 +69,18 @@ const message=document.getElementById("message");
 let mode="login";
 const authParams = new URLSearchParams(window.location.search);
 const requestedPlan = authParams.get("plan");
-const checkoutPlans = ["monthly-premium", "full-course"];
+const checkoutPlans = ["monthly-premium", "full-course", "selected-modules"];
 const wantsCheckout = authParams.get("next") === "checkout" && checkoutPlans.includes(requestedPlan);
 const wantsFullCourseCheckout = wantsCheckout && requestedPlan === "full-course";
 const wantsMonthlyCheckout = wantsCheckout && requestedPlan === "monthly-premium";
 const wantsPlansReturn = authParams.get("next") === "plans";
+const wantsModuleSelection = authParams.get("next") === "modules";
 function checkoutReturnUrl(){
  const plan = wantsCheckout ? requestedPlan : "full-course";
  return new URL("checkout.html?plan=" + encodeURIComponent(plan), window.location.href).toString();
 }
 function successfulLoginUrl(){
- return wantsCheckout ? checkoutReturnUrl() : (wantsPlansReturn ? "index.html#premium" : "dashboard.html");
+ return wantsCheckout ? checkoutReturnUrl() : (wantsPlansReturn ? "index.html#premium" : (wantsModuleSelection ? "module-selection.html" : "dashboard.html"));
 }
 
 function showMessage(text,type){message.textContent=text;message.className="message "+type}
@@ -113,12 +114,12 @@ form.addEventListener("submit",async(e)=>{
        email,password,
        options:{
          data:{full_name:name},
-         emailRedirectTo: wantsCheckout ? checkoutReturnUrl() : (wantsPlansReturn ? new URL("index.html#premium", window.location.href).toString() : new URL("index.html", window.location.href).toString())
+         emailRedirectTo: wantsCheckout ? checkoutReturnUrl() : (wantsPlansReturn ? new URL("index.html#premium", window.location.href).toString() : new URL("module-selection.html", window.location.href).toString())
        }
      });
      if(error)throw error;
      if(data.session){
-       showMessage(wantsCheckout ? "Account created. Opening secure checkout..." : (wantsPlansReturn ? "Account created. Returning to plans..." : "Account created successfully. Opening dashboard..."),"success");
+       showMessage(wantsCheckout ? "Account created. Opening secure checkout..." : (wantsPlansReturn ? "Account created. Returning to plans..." : "Account created successfully. Choose your learning modules next."),"success");
        setTimeout(()=>location.href=successfulLoginUrl(),700);
      }else{
        showMessage("Account created. Check your email to confirm your account, then log in.","success");
