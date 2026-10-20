@@ -77,7 +77,11 @@ const wantsPlansReturn = authParams.get("next") === "plans";
 const wantsModuleSelection = authParams.get("next") === "modules";
 function checkoutReturnUrl(){
  const plan = wantsCheckout ? requestedPlan : "full-course";
- return new URL("checkout.html?plan=" + encodeURIComponent(plan), window.location.href).toString();
+ const url = new URL("checkout.html", window.location.href);
+ url.searchParams.set("plan", plan);
+ const modules = authParams.get("modules");
+ if (plan === "selected-modules" && modules) url.searchParams.set("modules", modules);
+ return url.toString();
 }
 function successfulLoginUrl(){
  return wantsCheckout ? checkoutReturnUrl() : (wantsPlansReturn ? "index.html#premium" : (wantsModuleSelection ? "module-selection.html" : "dashboard.html"));
