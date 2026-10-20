@@ -58,7 +58,7 @@
     try {
       const {data:userData,error:userError}=await withTimeout(client.auth.getUser(),12000,'Checking sign-in timed out. Refresh the page and sign in again.');
       if(userError) throw new Error('Could not check your sign-in: '+userError.message);
-      if(!userData.user){location.href='auth.html?next=checkout&plan='+encodeURIComponent(planId);return;}
+      if(!userData.user){const authUrl=new URL('auth.html',location.href);authUrl.searchParams.set('next','checkout');authUrl.searchParams.set('plan',planId);if(planId==='selected-modules')authUrl.searchParams.set('modules',moduleIds.join(','));location.href=authUrl.toString();return;}
       setStatus('Loading secure payment window…');
       await withTimeout(loadRazorpay(),15000,'Razorpay checkout took too long to load. Check your internet connection or browser extensions.');
       setStatus('Creating secure payment order…');
