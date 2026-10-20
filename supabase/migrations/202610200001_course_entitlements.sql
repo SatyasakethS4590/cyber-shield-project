@@ -61,8 +61,7 @@ create policy "Users can read their own entitlements"
   on public.course_entitlements for select to authenticated
   using (auth.uid() = user_id);
 
-revoke insert, update, delete, truncate, references, trigger
-  on public.course_entitlements from anon, authenticated;
+revoke all on public.course_entitlements from public, anon, authenticated;
 grant select on public.course_entitlements to authenticated;
 grant all on public.course_entitlements to service_role;
 
