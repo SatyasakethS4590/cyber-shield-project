@@ -124,7 +124,7 @@ form.addEventListener("submit",async(e)=>{
      if(error)throw error;
      if(data.session){
        showMessage(wantsCheckout ? "Account created. Opening secure checkout..." : (wantsPlansReturn ? "Account created. Returning to plans..." : "Account created successfully. Choose your learning modules next."),"success");
-       setTimeout(()=>location.href=successfulLoginUrl(),700);
+       setTimeout(()=>location.href=(wantsCheckout?checkoutReturnUrl():(wantsPlansReturn?"index.html#premium":"module-selection.html")),700);
      }else{
        showMessage("Account created. Check your email to confirm your account, then log in.","success");
      }
